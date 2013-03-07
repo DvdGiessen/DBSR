@@ -1,0 +1,12 @@
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Source Code Pro'),
+  	   local('SourceCodePro-Regular'),
+  	   url(?resource=webfonts/SourceCodePro.woff) format('woff'),
+  	   url(?resource=webfonts/SourceCodePro.eot) format('embedded-opentype');
+  	   url(?resource=webfonts/SourceCodePro.otf) format('opentype'),
+  	   url(?resource=webfonts/SourceCodePro.ttf) format('truetype'),
+  	   url(?resource=webfonts/SourceCodePro.svg) format('svg');
+}

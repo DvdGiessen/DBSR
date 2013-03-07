@@ -1,0 +1,26 @@
+{
+	"options": {
+		"CLI": {
+			"output": 			"json"
+		},
+		"PDO": {
+			"hostname": 		"localhost",
+			"port": 			3306,
+			"username": 		"root",
+			"password": 		"",
+			"database": 		"exampledatabase",
+			"charset": 			"utf8"
+		},
+		"DBSR": {
+			"case-insensitive": false,
+			"extensive-search": false,
+			"search-page-size": 10000,
+			"var-match-strict": true,
+			"floats-precision": 5,
+			"convert-charsets": true,
+			"var-cast-replace": true
+		}
+	},
+	"search": ["Däniel"],
+	"replace": ["Daniël"]
+}

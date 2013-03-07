@@ -1,0 +1,12 @@
+ToDo-list for the DBSR project, in non-specific order
+
+DBSR:
+ - Write a set of (unit) tests for DBSR and helper classes
+ - Add option to generate extensive logging (specific rows changed, comparision various callbacks, etc)
+ - Add an option for a dry run (which only returns statistics, yet does not writes anything to the DB)
+ - Make serialized data replace optional (by adding extra DBSR::OPTION_* constant)
+ - Ability to limit the tables / columns / rows being searched (set of DBSR::OPTION_* constants)
+
+DBSR_GUI:
+ - Allow casting of input integers or floats combined with an option to enable strict search
+ - Add access to all other options of DBSR
