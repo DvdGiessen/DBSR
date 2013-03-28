@@ -25,192 +25,200 @@
 			<li>
 				<h2><span>Database connection information</span></h2>
 				<div>
-					<form method="post">
-						<h2>Database connection information</h2>
-						<p>
-							Enter the connection details for the database server below.
-						</p>
+					<div>
+						<form method="post">
+							<h2>Database connection information</h2>
+							<p>
+								Enter the connection details for the database server below.
+							</p>
 
-						<table>
-							<tbody>
-								<tr>
-									<td><label for="db_host">Hostname</label></td>
-									<td><input name="db_host" id="db_host" type="text" class="data-db_host" /></td>
-								</tr>
-								<tr>
-									<td><label for="db_port">Port number</label></td>
-									<td><input name="db_port" id="db_port" type="text" class="data-db_port" /></td>
-								</tr>
-								<tr>
-									<td><label for="db_user">Username</label></td>
-									<td><input name="db_user" id="db_user" type="text" class="data-db_user" /></td>
-								</tr>
-								<tr>
-									<td><label for="db_pass">Password</label></td>
-									<td><input name="db_pass" id="db_pass" type="password" class="data-db_pass" /></td>
-								</tr>
-								<tr>
-									<td><label for="db_name">Database</label></td>
-									<td><input name="db_name" id="db_name" type="text" class="data-db_name autocomplete" /></td>
-								</tr>
-								<tr>
-									<td><label for="db_char">Charset</label></td>
-									<td><input name="db_char" id="db_char" type="text" class="data-db_char autocomplete" /></td>
-								</tr>
-							</tbody>
-						</table>
-						<p>
-							<input type="hidden" name="step" value="1" />
-							<input type="submit" value="Next" />
-						</p>
-						<p class="errormessage"></p>
-					</form>
+							<table>
+								<tbody>
+									<tr>
+										<td><label for="db_host">Hostname</label></td>
+										<td><input name="db_host" id="db_host" type="text" class="data-db_host" /></td>
+									</tr>
+									<tr>
+										<td><label for="db_port">Port number</label></td>
+										<td><input name="db_port" id="db_port" type="text" class="data-db_port" /></td>
+									</tr>
+									<tr>
+										<td><label for="db_user">Username</label></td>
+										<td><input name="db_user" id="db_user" type="text" class="data-db_user" /></td>
+									</tr>
+									<tr>
+										<td><label for="db_pass">Password</label></td>
+										<td><input name="db_pass" id="db_pass" type="password" class="data-db_pass" /></td>
+									</tr>
+									<tr>
+										<td><label for="db_name">Database</label></td>
+										<td><input name="db_name" id="db_name" type="text" class="data-db_name autocomplete" /></td>
+									</tr>
+									<tr>
+										<td><label for="db_char">Charset</label></td>
+										<td><input name="db_char" id="db_char" type="text" class="data-db_char autocomplete" /></td>
+									</tr>
+								</tbody>
+							</table>
+							<p>
+								<input type="hidden" name="step" value="1" />
+								<input type="submit" value="Next" />
+							</p>
+							<p class="errormessage"></p>
+						</form>
+					</div>
 				</div>
 			</li>
 			<li>
 				<h2><span>Search and replace options</span></h2>
 				<div>
-					<form method="post">
-						<h2>Search and replace options</h2>
-						<p>
-							You have selected the database "<span class="data-db_name">DATABASE NAME</span>" on <span class="data-db_host">DATABASE HOST</span><span class="data-db_port prefix-colon">:PORT</span>.
-							The connection will use the <span class="data-db_char">DATABASE CHARSET</span> character set.
-						</p>
-						<p>
-							Please enter the search and replaces values in the form below.
-						</p>
-						<table>
-							<thead>
-								<tr>
-									<th>Search for:</th>
-									<th>Replace with:</th>
-								</tr>
-							</thead>
-							<tfoot>
-								<tr>
-									<td colspan="2">
-										<input type="button" value="+" id="addField" />
-										<input type="button" value="-" id="removeField" disabled="disabled" />
-										<span class="note-right" style="float: right;">Note that all values are processed in order and thus may replace preceding values.</span>
-									</td>
-								</tr>
-							</tfoot>
-							<tbody id="srFields">
-								<tr>
-									<td>
-										<textarea name="search[0]" rows="10" cols="50"></textarea>
-									</td>
+					<div>
+						<form method="post">
+							<h2>Search and replace options</h2>
+							<p>
+								You have selected the database "<span class="data-db_name">DATABASE NAME</span>" on <span class="data-db_host">DATABASE HOST</span><span class="data-db_port prefix-colon">:PORT</span>.
+								The connection will use the <span class="data-db_char">DATABASE CHARSET</span> character set.
+							</p>
+							<p>
+								Please enter the search and replaces values in the form below.
+							</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Search for:</th>
+										<th>Replace with:</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<td colspan="2">
+											<input type="button" value="+" id="addField" />
+											<input type="button" value="-" id="removeField" disabled="disabled" />
+											<span class="note-right" style="float: right;">Note that all values are processed in order and thus may replace preceding values.</span>
+										</td>
+									</tr>
+								</tfoot>
+								<tbody id="srFields">
+									<tr>
+										<td>
+											<textarea name="search[0]" rows="10" cols="50"></textarea>
+										</td>
 
-									<td>
-										<textarea name="replace[0]" rows="10" cols="50"></textarea>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-						<p>
-							When searching for a specific string it's sometimes useful to enter escaped sequences such as "<code>\n</code>" or <code>\x5C</code>".<br />
-							Checking the box below will make the script interpret all escaped sequences as PHP would in a double-quoted string.<br />
-							<input type="checkbox" name="escapedvalues" id="escapedvalues" class="data-escapedvalues" /><label for="escapedvalues">Interpret PHP escaped sequences.</label>
-						</p>
-						<p>
-							Case-insensitive search is disabled by default since most databases and filesystems are case-sensitive.<br />
-							Toggeling this settings might come in handy when running search-and-replace actions for user input.<br />
-							<input type="checkbox" name="dbsr_caseinsensitive" id="dbsr_caseinsensitive" class="data-dbsr_caseinsensitive" /><label for="dbsr_caseinsensitive">Case-insensitive search.</label>
-						</p>
-						<p>
-							For performance reasons, the script normally only processes rows which contain one or more of the plain search strings.<br />
-							Checking the box below will make the script process <b>every</b> row in the entire database.<br />
-							This may be useful when due to serialization the exact search strings do not occour in the database or if using this script to repair currupted serialized strings.<br />
-							<input type="checkbox" name="dbsr_extensivesearch" id="dbsr_extensivesearch" class="data-dbsr_extensivesearch" /><label for="dbsr_extensivesearch">Run a extended search.</label>
-						</p>
-						<p>
-							<input type="hidden" name="step" value="2" />
-							<input type="button" value="Previous" class="prev" />
-							<input type="submit" value="Next" />
-						</p>
-						<p class="errormessage"></p>
-					</form>
+										<td>
+											<textarea name="replace[0]" rows="10" cols="50"></textarea>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>
+								When searching for a specific string it's sometimes useful to enter escaped sequences such as "<code>\n</code>" or <code>\x5C</code>".<br />
+								Checking the box below will make the script interpret all escaped sequences as PHP would in a double-quoted string.<br />
+								<input type="checkbox" name="escapedvalues" id="escapedvalues" class="data-escapedvalues" /><label for="escapedvalues">Interpret PHP escaped sequences.</label>
+							</p>
+							<p>
+								Case-insensitive search is disabled by default since most databases and filesystems are case-sensitive.<br />
+								Toggeling this settings might come in handy when running search-and-replace actions for user input.<br />
+								<input type="checkbox" name="dbsr_caseinsensitive" id="dbsr_caseinsensitive" class="data-dbsr_caseinsensitive" /><label for="dbsr_caseinsensitive">Case-insensitive search.</label>
+							</p>
+							<p>
+								For performance reasons, the script normally only processes rows which contain one or more of the plain search strings.<br />
+								Checking the box below will make the script process <b>every</b> row in the entire database.<br />
+								This may be useful when due to serialization the exact search strings do not occour in the database or if using this script to repair currupted serialized strings.<br />
+								<input type="checkbox" name="dbsr_extensivesearch" id="dbsr_extensivesearch" class="data-dbsr_extensivesearch" /><label for="dbsr_extensivesearch">Run a extended search.</label>
+							</p>
+							<p>
+								<input type="hidden" name="step" value="2" />
+								<input type="button" value="Previous" class="prev" />
+								<input type="submit" value="Next" />
+							</p>
+							<p class="errormessage"></p>
+						</form>
+					</div>
 				</div>
 			</li>
 			<li>
 				<h2><span>Confirmation</span></h2>
 				<div>
-					<form method="post">
-						<h2>Confirmation</h2>
-						<p>
-							You selected the database "<span class="data-db_name">DATABASE NAME</span>" on <span class="data-db_host">DATABASE HOST</span><span class="data-db_port">:PORT</span>.
-							The connection will use the <span class="data-db_char">DATABASE CHARSET</span> character set.
-						</p>
-						<p>The following strings will be used for search-and-replace:</p>
-						<table>
-							<thead>
-								<tr>
-									<th>Search for:</th>
-									<th>Replace with:</th>
-								</tr>
-							</thead>
-							<tfoot>
-								<tr>
-									<td colspan="2">
-										<span class="values-switch">
-											View as
-											<a href="#" class="values-raw">raw values</a>,
-											<a href="#" class="values-escaped">PHP escaped values</a> or
-											<a href="#" class="values-hex">hex values</a>
-										</span>
-									</td>
-								</tr>
-							</tfoot>
-							<tbody class="values-raw html-values_raw">
-								<tr>
-									<td><code>RAW SEARCH VALUE</code></td>
-									<td><code>RAW REPLACE VALUE</code></td>
-								</tr>
-							</tbody>
-							<tbody class="values-escaped html-values_escaped">
-								<tr>
-									<td><code>ESCAPED SEARCH VALUE</code></td>
-									<td><code>ESCAPED REPLACE VALUE</code></td>
-								</tr>
-							</tbody>
-							<tbody class="values-hex html-values_hex">
-								<tr>
-									<td><code>HEX SEARCH VALUE</code></td>
-									<td><code>HEX REPLACE VALUE</code></td>
-								</tr>
-							</tbody>
-						</table>
-						<div class="html-suggestions"></div>
-						<p>
-							Always make a backup of your database before using this script!<br />
-							If you haven't done so yet, do it now! Remember Murphy's law!
-						</p>
-						<p>
-							<input type="checkbox" name="confirmed" id="confirmed" /><label for="confirmed">This data is correct.</label>
-						</p>
-						<p>
-							<input type="hidden" name="step" value="3" />
-							<input type="button" value="Previous" class="prev" />
-							<input type="submit" value="Start!" />
-						</p>
-						<p class="errormessage"></p>
-					</form>
+					<div>
+						<form method="post">
+							<h2>Confirmation</h2>
+							<p>
+								You selected the database "<span class="data-db_name">DATABASE NAME</span>" on <span class="data-db_host">DATABASE HOST</span><span class="data-db_port">:PORT</span>.
+								The connection will use the <span class="data-db_char">DATABASE CHARSET</span> character set.
+							</p>
+							<p>The following strings will be used for search-and-replace:</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Search for:</th>
+										<th>Replace with:</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<td colspan="2">
+											<span class="values-switch">
+												View as
+												<a href="#" class="values-raw">raw values</a>,
+												<a href="#" class="values-escaped">PHP escaped values</a> or
+												<a href="#" class="values-hex">hex values</a>
+											</span>
+										</td>
+									</tr>
+								</tfoot>
+								<tbody class="values-raw html-values_raw">
+									<tr>
+										<td><code>RAW SEARCH VALUE</code></td>
+										<td><code>RAW REPLACE VALUE</code></td>
+									</tr>
+								</tbody>
+								<tbody class="values-escaped html-values_escaped">
+									<tr>
+										<td><code>ESCAPED SEARCH VALUE</code></td>
+										<td><code>ESCAPED REPLACE VALUE</code></td>
+									</tr>
+								</tbody>
+								<tbody class="values-hex html-values_hex">
+									<tr>
+										<td><code>HEX SEARCH VALUE</code></td>
+										<td><code>HEX REPLACE VALUE</code></td>
+									</tr>
+								</tbody>
+							</table>
+							<div class="html-suggestions"></div>
+							<p>
+								Always make a backup of your database before using this script!<br />
+								If you haven't done so yet, do it now! Remember Murphy's law!
+							</p>
+							<p>
+								<input type="checkbox" name="confirmed" id="confirmed" /><label for="confirmed">This data is correct.</label>
+							</p>
+							<p>
+								<input type="hidden" name="step" value="3" />
+								<input type="button" value="Previous" class="prev" />
+								<input type="submit" value="Start!" />
+							</p>
+							<p class="errormessage"></p>
+						</form>
+					</div>
 				</div>
 			</li>
 			<li>
 				<h2><span>Results</span></h2>
 				<div>
-					<form method="post">
-						<h2>Results</h2>
-						<p>
-							<span class="data-result">RESULT</span> occurence(s) found and replaced.
-						</p>
-						<p>
-							<input type="checkbox" name="selfdestruct" id="selfdestruct" disabled="disabled" /><label for="selfdestruct">Delete this script from the server.</label><br />
-							<input type="submit" value="Restart" />
-						</p>
-						<p class="errormessage"></p>
-					</form>
+					<div>
+						<form method="post">
+							<h2>Results</h2>
+							<p>
+								<span class="data-result">RESULT</span> occurence(s) found and replaced.
+							</p>
+							<p>
+								<input type="checkbox" name="selfdestruct" id="selfdestruct" disabled="disabled" /><label for="selfdestruct">Delete this script from the server.</label><br />
+								<input type="submit" value="Restart" />
+							</p>
+							<p class="errormessage"></p>
+						</form>
+					</div>
 				</div>
 			</li>
 		</ol>

@@ -20,7 +20,7 @@
 	 *
 	 * @author Daniël van de Giessen
 	 * @package DBSR
-	 * @version 2.0
+	 * @version 2.0.1
 	 */
 	class DBSR {
 		/* Constants */
@@ -28,7 +28,7 @@
 		 * Version string indicating the DBSR version.
 		 * @var string
 		 */
-		const VERSION = '2.0';
+		const VERSION = '2.0.1';
 
 		/**
 		 * Option: use case-insensitive search and replace.
@@ -71,6 +71,12 @@
 		 * @var boolean
 		 */
 		const OPTION_VAR_CAST_REPLACE = 6;
+
+		/**
+		 * Option: write changed values back to the database.
+		 * @var boolean
+		 */
+		const OPTION_DB_WRITE_CHANGES = 7;
 
 		/* Static methods */
 		/**
@@ -161,6 +167,7 @@
 			self::OPTION_FLOATS_PRECISION => 5,
 			self::OPTION_CONVERT_CHARSETS => TRUE,
 			self::OPTION_VAR_CAST_REPLACE => TRUE,
+			self::OPTION_DB_WRITE_CHANGES => TRUE,
 		);
 
 		/**
@@ -498,7 +505,7 @@
 			}
 
 			// Update the row if nessecary
-			if(count($changeset) > 0) {
+			if(count($changeset) > 0 && $this->getOption(self::OPTION_DB_WRITE_CHANGES)) {
 				// Build the WHERE-statement for this row
 				$where = $this->_DBRWhereRow($keys, $row);
 

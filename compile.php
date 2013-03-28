@@ -22,11 +22,11 @@
 	 */
 
 	// Minimize output (optimalisations like whitespace removal and file combination, reducing total size and increasing speed)
-	$minimize_php = TRUE;
-	$minimize_html = TRUE;
-	$minimize_js = TRUE;
-	$minimize_css = TRUE;
-	$minimize_svg = TRUE;
+	$minimize_php 	= TRUE;
+	$minimize_html 	= TRUE;
+	$minimize_js 	= TRUE;
+	$minimize_css 	= TRUE;
+	$minimize_svg 	= TRUE;
 
 	// Compress entire source using a compression algorithm
 	// Valid options: none, gzip
@@ -82,7 +82,7 @@
 		// Load up all resources in this directory
 		$resources = glob($dir . DIRECTORY_SEPARATOR . '*');
 
-		// Special case: JS compression
+		// Special case: CSS/JS compression
 		if((preg_match('#/?js$#', $dir) && $minimize_js) || (preg_match('#/?css$#', $dir) && $minimize_css)) {
 			if(preg_match('#/?js$#', $dir)) {
 				// JS order
@@ -96,10 +96,10 @@
 			} else {
 				// CSS order
 				$order = array(
+					'SourceCodePro',
 					'reset',
 					'jquery-ui',
 					'jquery-liteaccordion',
-					'SourceCodePro',
 					'style',
 				);
 			}
@@ -114,14 +114,22 @@
 			foreach($order as $o) {
 				foreach($resources as $key => $resource) {
 					if(strpos($resource, $o) !== FALSE) {
-						if(!($resource_content .= "\n" . file_get_contents($resource))) die('Unable to load file ' . basename($resource));
+						if($resource_file_content = file_get_contents($resource)) {
+							$resource_content .= "\n" . $resource_file_content;
+						} else {
+							die('Unable to load file ' . basename($resource));
+						}
 						unset($resources[$key]);
 					}
 				}
 			}
 			foreach($resources as $key => $resource) {
 				if(!is_file($resource)) continue;
-				if(!is_readable($resource) || !($resource_content .= "\n" . file_get_contents($resource))) die('Unable to load file ' . basename($resource));
+				if(is_readable($resource) && ($resource_file_content = file_get_contents($resource))) {
+					$resource_content .= "\n" . $resource_file_content;
+				} else {
+					die('Unable to load file ' . basename($resource));
+				}
 				unset($resources[$key]);
 			}
 
@@ -170,15 +178,19 @@
 					if($minimize_js) $resource_content = preg_replace('#(\s*<script[^>]+></script>)+(\s+<script[^>]+script.js[^>]+></script>)#', '$2', $resource_content);
 
 					// Remove all LINK tags to account for CSS compression
-					if($minimize_js) $resource_content = preg_replace('#(\s*<link[^>]+/>)+(\s+<link[^>]+style.css[^>]+/>)#', '$2', $resource_content);
+					if($minimize_css) $resource_content = preg_replace('#(\s*<link[^>]+/>)+(\s+<link[^>]+style.css[^>]+/>)#', '$2', $resource_content);
 
 					// Remove useless HTML whitespace
-					if($minimize_html) $resource_content = preg_replace('/\s+/', ' ', $resource_content);
+					if($minimize_html) {
+						$resource_content = preg_replace('/\s+/', ' ', $resource_content);
+						$resource_content = str_replace('> <', '><', $resource_content);
+					}
 				}
 
-				// Special case: SVG font file
-				if(basename($resource) == 'SourceCodePro.svg' && $minimize_svg) {
-					$resource_content = preg_replace('/[\r\n]+/', '', $resource_content);
+				// Special case: SVG font files
+				if(substr(basename($resource), -4) == '.svg' && $minimize_svg) {
+					$resource_content = preg_replace('/\s+/', ' ', $resource_content);
+					$resource_content = str_replace('> <', '><', $resource_content);
 				}
 
 				if(preg_match('/[^\w\s[:print:]]/', $resource_content)) {
@@ -313,7 +325,7 @@
 
 			switch($compress) {
 				case 'gzip':
-					$compressed = '<?php eval(gzuncompress(base64_decode(\'' . base64_encode(gzcompress($compressed, 9)) . '\')));';
+					$compressed = 'eval(gzuncompress(base64_decode(\'' . base64_encode(gzcompress($compressed, 9)) . '\')));';
 					break;
 			}
 

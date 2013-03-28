@@ -1,12 +1,23 @@
+/* Source Code Pro is licensed under the SIL Open Font License, Version 1.1 - http://scripts.sil.org/OFL */
 @font-face {
   font-family: 'Source Code Pro';
   font-style: normal;
-  font-weight: 400;
-  src: local('Source Code Pro'),
-  	   local('SourceCodePro-Regular'),
-  	   url(?resource=webfonts/SourceCodePro.woff) format('woff'),
-  	   url(?resource=webfonts/SourceCodePro.eot) format('embedded-opentype');
-  	   url(?resource=webfonts/SourceCodePro.otf) format('opentype'),
-  	   url(?resource=webfonts/SourceCodePro.ttf) format('truetype'),
-  	   url(?resource=webfonts/SourceCodePro.svg) format('svg');
+  font-weight: normal;
+  src: local('SourceCodePro-Regular'),
+  	   url(?resource=webfonts/SourceCodePro-Regular.woff) format('woff'),
+  	   url(?resource=webfonts/SourceCodePro-Regular.eot)  format('embedded-opentype');
+  	   url(?resource=webfonts/SourceCodePro-Regular.otf)  format('opentype'),
+  	   url(?resource=webfonts/SourceCodePro-Regular.ttf)  format('truetype'),
+  	   url(?resource=webfonts/SourceCodePro-Regular.svg)  format('svg');
+}
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: bold;
+  src: local('SourceCodePro-Bold'),
+  	   url(?resource=webfonts/SourceCodePro-Bold.woff) format('woff'),
+  	   url(?resource=webfonts/SourceCodePro-Bold.eot)  format('embedded-opentype');
+  	   url(?resource=webfonts/SourceCodePro-Bold.otf)  format('opentype'),
+  	   url(?resource=webfonts/SourceCodePro-Bold.ttf)  format('truetype'),
+  	   url(?resource=webfonts/SourceCodePro-Bold.svg)  format('svg');
 }

@@ -40,8 +40,8 @@ body > h1 {
 	margin-left: 2%;
 
 	font-family: 'Source Code Pro', 'Consolas', 'Courier New', monospace;
-	font-weight: bolder;
-	font-size: 22px;
+	font-weight: normal;
+	font-size: 26px;
 	text-shadow: 2px 2px 2px #999999;
 }
 
@@ -74,11 +74,11 @@ body > .version {
 #container .slide > h2 {
 	width: 48px !important;
 	height: 100% !important;
-	transform: none;
 	-webkit-transform: none;
-	-moz-transform: none;
-	-o-transform: none;
-	-ms-transform: none;
+	   -moz-transform: none;
+	    -ms-transform: none;
+	     -o-transform: none;
+	        transform: none;
 
 	font-family: 'Source Code Pro', 'Consolas', 'Courier New', monospace;
 }
@@ -89,16 +89,17 @@ body > .version {
 	margin-left: 4px;
 	padding-right: 0;
 	vertical-align: baseline;
-	transform: translateX(-100%) rotate(-90deg);
-	transform-origin: right top;
 	-webkit-transform: translateX(-100%) rotate(-90deg);
+	   -moz-transform: translateX(-100%) rotate(-90deg);
+	    -ms-transform: translateX(-100%) rotate(-90deg);
+	     -o-transform: translateX(-100%) rotate(-90deg);
+	        transform: translateX(-100%) rotate(-90deg);
+
 	-webkit-transform-origin: right top;
-	-moz-transform: translateX(-100%) rotate(-90deg);
-	-moz-transform-origin: right top;
-	-o-transform: translateX(-100%) rotate(-90deg);
-	-o-transform-origin: right top;
-	-ms-transform: translateX(-100%) rotate(-90deg);
-	-ms-transform-origin: right top;
+	   -moz-transform-origin: right top;
+	    -ms-transform-origin: right top;
+	     -o-transform-origin: right top;
+	        transform-origin: right top;
 }
 #container .slide > h2 b {
 	top: auto;
@@ -107,14 +108,26 @@ body > .version {
 	font-size: 22px;
 	transform: none;
 	-webkit-transform: none;
-	-moz-transform: none;
-	-o-transform: none;
-	-ms-transform: none;
+	   -moz-transform: none;
+	    -ms-transform: none;
+	     -o-transform: none;
 }
 
 #container .slide > div {
 	height: 100%;
 	overflow: auto;
+}
+
+#container .slide > div > div {
+	position: relative;
+	height: auto;
+	min-height: 100%;
+	min-height: -webkit-calc(100% - 2px);
+	min-height:    -moz-calc(100% - 2px);
+	min-height:     -ms-calc(100% - 2px);
+	min-height:      -o-calc(100% - 2px);
+	min-height:         calc(100% - 2px);
+	padding: 1px 0;
 }
 
 #container .slide > div form {
@@ -139,9 +152,9 @@ div.blockUI.blockMsg {
 	background-color: 		#000;
 	border-radius: 			10px;
 	-webkit-border-radius: 	10px;
-	-moz-border-radius: 	10px;
-	-o-border-radius: 		10px;
-	-ms-border-radius: 		10px;
+	   -moz-border-radius: 	10px;
+	    -ms-border-radius: 	10px;
+	     -o-border-radius: 	10px;
 }
 
 .errormessage {

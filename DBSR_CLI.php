@@ -20,7 +20,7 @@
 	 *
 	 * @author Daniël van de Giessen
 	 * @package DBSR
-	 * @version 2.0
+	 * @version 2.0.1
 	 */
 	class DBSR_CLI {
 		/* Constants */
@@ -28,7 +28,7 @@
 		 * Version string indicating the DBSR CLI version.
 		 * @var string
 		 */
-		const VERSION = '2.0';
+		const VERSION = '2.0.1';
 
 		/* Static properties */
 		/**
@@ -143,6 +143,12 @@
 					'name' => 'var-cast-replace',
 					'parameter' => '[true|false]',
 					'description' => 'cast all replace-values to the original type',
+					'default_value' => TRUE,
+				),
+				DBSR::OPTION_DB_WRITE_CHANGES => array(
+					'name' => 'db-write-changes',
+					'parameter' => '[true|false]',
+					'description' => 'write changed values back to the database',
 					'default_value' => TRUE,
 				),
 			),
@@ -331,7 +337,7 @@
 			// Output the result
 			switch($this->options['CLI']['output']) {
 				case 'text':
-					die('Result: ' . $result . ' rows were changed!');
+					die('Result: ' . $result . ' rows were ' . ($this->options['DBSR'][DBSR::OPTION_DB_WRITE_CHANGES] ? 'changed' : 'matched (no changes were written to the databasse)') . '!');
 
 				case 'json':
 					die(json_encode(array('result' => $result)));
@@ -401,8 +407,38 @@
 									break 2;
 							}
 
-							// Set the option
-							if(!is_null($option['default_value'])) settype($arg, gettype($option['default_value']));
+							// Parse the argument
+							if(!is_null($option['default_value'])) {
+								// Special cases and specific error messages
+								if(is_bool($option['default_value'])) {
+									if(strtolower($arg) == 'true') {
+										$arg = TRUE;
+									} elseif(strtolower($arg) == 'false') {
+										$arg = FALSE;
+									} elseif(is_numeric($arg)) {
+										$arg = (bool) (int) $arg;
+									} else {
+										die('Invalid argument, expected boolean for ' . (string) $arguments[$i]);
+									}
+								} elseif(is_int()) {
+									if(is_numeric($arg)) {
+										$arg = (int) $arg;
+									} else {
+										die('Invalid argument, expected integer for ' . (string) $arguments[$i]);
+									}
+								} elseif(is_float()) {
+									if(is_numeric($arg)) {
+										$arg = (float) $arg;
+									} else {
+										die('Invalid argument, expected float for ' . (string) $arguments[$i]);
+									}
+								}
+
+								// Typeset
+								settype($arg, gettype($option['default_value']));
+							}
+
+							// Save the argument
 							$this->options[$option['set']][$option['id']] = $arg;
 							$i++;
 						} else

@@ -54,18 +54,18 @@ jQuery(function($) {
 		}
 	});
 
+	// Save the window width for responsive optimalisation
+	var windowWidth = $('body').width();
+
 	// Options for the liteAccordion
 	var liteAccordionOptions = {
-		containerWidth: $('#container').width(),
+		containerWidth: windowWidth,
 		enumerateSlides: true,
 		linkable: false
 	};
 
 	// Build the liteAccordion
 	$('#container').liteAccordion(liteAccordionOptions);
-
-	// Save the window width for responsive optimalisation
-	var windowWidth = $('body').width();
 
 	// Bind resize event to make it responsive
 	$(window).on('resize orientationChanged', function() {
@@ -90,7 +90,7 @@ jQuery(function($) {
 	$.blockUI.defaults.growlCSS = {};
 
 	// Block all steps but the first
-	$('#container .slide:not(:first-child) > div').block({
+	$('#container .slide:not(:first-child) > div > div').block({
 		message: null,
 		overlayCSS: {
 			cursor: 'default'
@@ -136,10 +136,10 @@ jQuery(function($) {
 	$('#container .slide:not(:last-child) > div form').submit(function(e) {
 		// Save $(this)
 		var $this = $(this);
-		var $next = $this.parents('.slide').next('.slide').children('div');
-		var $prev = $this.parents('.slide').prev('.slide').children('div');
-		var $nexts = $this.parents('.slide').siblings('.slide').slice($this.parents('.slide').index()).children('div');
-		var $prevs = $this.parents('.slide').siblings('.slide').slice(0, $this.parents('.slide').index()).children('div');
+		var $next = $this.parents('.slide').next('.slide').children('div').children('div');
+		var $prev = $this.parents('.slide').prev('.slide').children('div').children('div');
+		var $nexts = $this.parents('.slide').siblings('.slide').slice($this.parents('.slide').index()).children('div').children('div');
+		var $prevs = $this.parents('.slide').siblings('.slide').slice(0, $this.parents('.slide').index()).children('div').children('div');
 
 		if($next.parents('.slide').is(':last-child') && $this.find('#confirmed').is(':not(:checked)')) {
 			$this.find('.errormessage').text('Please confirm the data stated above is correct!');
@@ -150,6 +150,14 @@ jQuery(function($) {
 		if(window.DBSR_stepping) return false;
 		window.DBSR_stepping = true;
 
+		// Block all next steps
+		$nexts.block({
+			message: null,
+			overlayCSS: {
+				cursor: 'default'
+			}
+		})
+
 		// Show loader on next step
 		$next.block({message: 'Processing data from previous step...'});
 
@@ -157,7 +165,7 @@ jQuery(function($) {
 		if($next.parents('.slide').is(':last-child')) {
 			$next.block({message: 'Executing search and replace...'});
 			$this.parents('.slide').next('.slide').children('h2').not('.selected').click();
-			$('#container .slide:not(:last-child) > div').block({
+			$('#container .slide:not(:last-child) > div > div').block({
 				message: null,
 				overlayCSS: {
 					cursor: 'default'
@@ -217,7 +225,7 @@ jQuery(function($) {
 				} else {
 					// Display message and go back (if needed)
 					$this.find('.errormessage').text(response.error);
-					$this.parents('.slide').children('div').unblock();
+					$this.parents('.slide').children('div').children('div').unblock();
 					$this.parents('.slide').children('h2').not('.selected').click();
 
 					// Block next steps
@@ -227,6 +235,9 @@ jQuery(function($) {
 							cursor: 'default'
 						}
 					});
+
+					// Unblock previous steps
+					$prevs.unblock();
 
 					// Stepping lock
 					window.DBSR_stepping = false;
@@ -245,7 +256,7 @@ jQuery(function($) {
 	});
 	$('#container .slide:last-child > div form input:submit').click(function(e) {
 		if($('#selfdestruct').is(':checked')) {
-			$('#container .slide:last-child > div').block({
+			$('#container .slide:last-child > div > div').block({
 				message: 'Self-destruction in progress...'
 			});
 			$.ajax({
@@ -254,7 +265,7 @@ jQuery(function($) {
 				dataType: 'json',
 				success: function(response, status, xhr) {
 					if(response) {
-						$('#container .slide:last-child > div').block({
+						$('#container .slide:last-child > div > div').block({
 							message: 'Self-destruction succesful!',
 							css: {
 								cursor: 'default'
@@ -264,7 +275,7 @@ jQuery(function($) {
 							}
 						});
 					} else {
-						$('#container .slide:last-child > div').block({
+						$('#container .slide:last-child > div > div').block({
 							message: 'Failed to self-destruct, please delete this file manually!',
 							css: {
 								cursor: 'default'
@@ -276,7 +287,7 @@ jQuery(function($) {
 					}
 				},
 				error: function(response, status, xhr) {
-					$('#container .slide:last-child > div').block({
+					$('#container .slide:last-child > div > div').block({
 						message: 'Error while self-destructing: ' + status,
 						overlayCSS: {
 							cursor: 'default'
@@ -286,13 +297,13 @@ jQuery(function($) {
 			});
 		} else {
 			$('#confirmed').prop('checked', false);
-			$('#container .slide:last-child > div').block({
+			$('#container .slide:last-child > div > div').block({
 				message: null,
 				overlayCSS: {
 					cursor: 'default'
 				}
 			});
-			$('#container .slide:first-child > div').unblock();
+			$('#container .slide:first-child > div > div').unblock();
 			$('#container .slide:first-child h2').click();
 		}
 		return false;
