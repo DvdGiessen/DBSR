@@ -20,7 +20,7 @@
 	 *
 	 * @author Daniël van de Giessen
 	 * @package DBSR
-	 * @version 2.0.1
+	 * @version 2.0.2
 	 */
 	class DBSR_CLI {
 		/* Constants */
@@ -28,7 +28,7 @@
 		 * Version string indicating the DBSR CLI version.
 		 * @var string
 		 */
-		const VERSION = '2.0.1';
+		const VERSION = '2.0.2';
 
 		/* Static properties */
 		/**
@@ -149,6 +149,12 @@
 					'name' => 'db-write-changes',
 					'parameter' => '[true|false]',
 					'description' => 'write changed values back to the database',
+					'default_value' => TRUE,
+				),
+				DBSR::OPTION_HANDLE_SERIALIZE => array(
+					'name' => 'handle-serialize',
+					'parameter' => '[true|false]',
+					'description' => 'interpret serialized strings as their PHP types',
 					'default_value' => TRUE,
 				),
 			),

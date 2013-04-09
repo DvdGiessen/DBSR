@@ -41,14 +41,14 @@
 			return 	'<!DOCTYPE html>' . "\n" .
 					'<html lang="en">' . "\n" .
 					'<head>' . "\n" .
-					'	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . "\n" .
-    				'	<title>DBSR CLI</title>' . "\n" .
+					"\t" . '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . "\n" .
+    				"\t" . '<title>DBSR CLI</title>' . "\n" .
 					'</head>' . "\n" .
 					'<body>' . "\n" .
-    				'	<form action="' . @$_SERVER['argv'][0] . '" method="get">' . "\n" .
-    				'		<p>' . htmlspecialchars(@$_SERVER['argv'][0]) . ' <input type="text" name="args" value="' . htmlspecialchars(@$_GET['args']) . '" size="100" /></p>' . "\n" .
-    				'	</form>' . "\n" .
-    				'	<pre>' . htmlspecialchars($output) . '</pre>' . "\n" .
+    				"\t" . '<form action="' . @$_SERVER['argv'][0] . '" method="get">' . "\n" .
+    				"\t\t" . '<p>' . htmlspecialchars(@$_SERVER['argv'][0]) . ' <input type="text" name="args" value="' . htmlspecialchars(@$_GET['args']) . '" size="100" /></p>' . "\n" .
+    				"\t" . '</form>' . "\n" .
+    				"\t" . '<pre>' . htmlspecialchars($output) . '</pre>' . "\n" .
     				'</body>' . "\n" .
     				'</html>';
 		}

@@ -20,7 +20,7 @@
 	 *
 	 * @author Daniël van de Giessen
 	 * @package DBSR
-	 * @version 2.0.1
+	 * @version 2.0.2
 	 */
 	class DBSR {
 		/* Constants */
@@ -28,7 +28,7 @@
 		 * Version string indicating the DBSR version.
 		 * @var string
 		 */
-		const VERSION = '2.0.1';
+		const VERSION = '2.0.2';
 
 		/**
 		 * Option: use case-insensitive search and replace.
@@ -77,6 +77,12 @@
 		 * @var boolean
 		 */
 		const OPTION_DB_WRITE_CHANGES = 7;
+
+		/**
+		 * Option: interpret serialized strings as PHP types.
+		 * @var boolean
+		 */
+		const OPTION_HANDLE_SERIALIZE = 8;
 
 		/* Static methods */
 		/**
@@ -168,6 +174,7 @@
 			self::OPTION_CONVERT_CHARSETS => TRUE,
 			self::OPTION_VAR_CAST_REPLACE => TRUE,
 			self::OPTION_DB_WRITE_CHANGES => TRUE,
+			self::OPTION_HANDLE_SERIALIZE => TRUE,
 		);
 
 		/**
@@ -758,10 +765,10 @@
 					$unserialized = @unserialize($new_value);
 
 					// Check if if actually was unserialized
-					if(($unserialized !== FALSE || $new_value === serialize(FALSE)) && !is_object($unserialized)) {
+					if($this->getOption(self::OPTION_HANDLE_SERIALIZE) && ($unserialized !== FALSE || $new_value === serialize(FALSE)) && !is_object($unserialized)) {
 						// Process recursively
 						$new_value = serialize($this->searchReplace($unserialized));
-					} elseif(is_object($unserialized) || preg_match($serialized_regex, $new_value)) {
+					} elseif($this->getOption(self::OPTION_HANDLE_SERIALIZE) && (is_object($unserialized) || preg_match($serialized_regex, $new_value))) {
 						// If it looks like it's serialized, use special regexes for search-and-replace
 
 						// TODO: split arrays/objects and process recursively?

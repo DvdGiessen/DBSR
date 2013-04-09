@@ -30,8 +30,22 @@ body {
 	min-width: 900px;
 	min-height: 650px;
 
-	font-family: Verdana, Geneva, sans-serif;
+	font-family: 'Source Sans Pro', Verdana, Geneva, sans-serif;
 	font-size: 16px;
+}
+
+h2 {
+	font-size: 24px;
+	font-weight: bolder;
+	margin-top: 15px;
+}
+
+p {
+	margin: 10px 0;
+}
+
+code, input[type="text"], textarea {
+	font-family: 'Source Code Pro', 'Consolas', 'Courier New', monospace;
 }
 
 body > h1 {
@@ -106,11 +120,11 @@ body > .version {
 	bottom: 10px;
 	left: 18px;
 	font-size: 22px;
-	transform: none;
 	-webkit-transform: none;
 	   -moz-transform: none;
 	    -ms-transform: none;
 	     -o-transform: none;
+	        transform: none;
 }
 
 #container .slide > div {
@@ -150,11 +164,11 @@ div.blockUI.blockMsg {
 	cursor: 				wait;
 	color: 					#fff;
 	background-color: 		#000;
-	border-radius: 			10px;
 	-webkit-border-radius: 	10px;
 	   -moz-border-radius: 	10px;
 	    -ms-border-radius: 	10px;
 	     -o-border-radius: 	10px;
+	        border-radius: 	10px;
 }
 
 .errormessage {
@@ -188,18 +202,4 @@ table td, table th {
 }
 .values-switch a.active:hover {
 	color: #8C8C8C;
-}
-
-h2 {
-	font-size: 24px;
-	font-weight: bolder;
-	margin-top: 15px;
-}
-
-p {
-	margin: 10px 0;
-}
-
-code {
-	font-family: 'Source Code Pro', 'Consolas', 'Courier New', monospace;
 }

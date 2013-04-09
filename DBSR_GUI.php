@@ -20,7 +20,7 @@
 	 *
 	 * @author Daniël van de Giessen
 	 * @package DBSR
-	 * @version 2.0.1
+	 * @version 2.0.2
 	 */
 	class DBSR_GUI {
 		/* Constants */
@@ -28,7 +28,7 @@
 		 * Version string indicating the DBSR GUI version.
 		 * @var string
 		 */
-		const VERSION = '2.0.1';
+		const VERSION = '2.0.2';
 
 		/**
 		 * Formatting option: formats as a plain, HTML-safe, string.

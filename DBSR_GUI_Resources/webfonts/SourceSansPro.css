@@ -1,0 +1,15 @@
+/* Source Sans Pro is licensed under the SIL Open Font License, Version 1.1 - http://scripts.sil.org/OFL */
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: normal;
+  src: local('SourceSansPro-Regular'),
+  	   url(?resource=webfonts/SourceSansPro-Regular.woff) format('woff');
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: bold;
+  src: local('SourceSansPro-Bold'),
+  	   url(?resource=webfonts/SourceSansPro-Bold.woff) format('woff');
+}

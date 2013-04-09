@@ -139,6 +139,7 @@
 					header('Content-Type: image/svg+xml');
 					break;
 			}
+			header('Content-Disposition: inline; filename=' . basename($_GET['resource']));
 
 			// Compress output (zlib takes care of client/server headers automatically)
 			if(extension_loaded('zlib') && ini_get('output_handler') != 'ob_gzhandler') {

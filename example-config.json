@@ -18,9 +18,11 @@
 			"var-match-strict": true,
 			"floats-precision": 5,
 			"convert-charsets": true,
-			"var-cast-replace": true
+			"var-cast-replace": true,
+			"db-write-changes": true,
+			"handle-serialize": true
 		}
 	},
-	"search": ["Däniel"],
+	"search": ["Daniel"],
 	"replace": ["Daniël"]
 }

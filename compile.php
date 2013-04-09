@@ -96,6 +96,7 @@
 			} else {
 				// CSS order
 				$order = array(
+					'SourceSansPro',
 					'SourceCodePro',
 					'reset',
 					'jquery-ui',
@@ -104,9 +105,9 @@
 				);
 			}
 
-			// Webfont CSS special case
+			// Webfonts CSS special case
 			if(preg_match('#/?css$#', $dir)) {
-				$resources[] = str_replace('css', 'webfonts', $dir) . DIRECTORY_SEPARATOR . 'SourceCodePro.css';
+				$resources = array_merge($resources, glob(str_replace('css', 'webfonts', $dir) . DIRECTORY_SEPARATOR . '*.css'));
 			}
 
 			// Collect resource content
@@ -161,7 +162,7 @@
 			}
 		} elseif(preg_match('#/?webfonts$#', $dir) && $minimize_css) {
 			foreach($resources as $key => $resource) {
-				if(strpos($resource, 'SourceCodePro.css') !== FALSE) {
+				if(preg_match('#\.css$#', $resource)) {
 					unset($resources[$key]);
 				}
 			}
