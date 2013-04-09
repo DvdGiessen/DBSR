@@ -187,6 +187,10 @@ table td, table th {
     vertical-align: middle;
 }
 
+input[type="text"], input[type="password"] {
+	min-width: 180px;
+}
+
 .values-switch {
 	color: #808080;
 }

@@ -179,7 +179,7 @@
 					if($minimize_js) $resource_content = preg_replace('#(\s*<script[^>]+></script>)+(\s+<script[^>]+script.js[^>]+></script>)#', '$2', $resource_content);
 
 					// Remove all LINK tags to account for CSS compression
-					if($minimize_css) $resource_content = preg_replace('#(\s*<link[^>]+/>)+(\s+<link[^>]+style.css[^>]+/>)#', '$2', $resource_content);
+					if($minimize_css) $resource_content = preg_replace('#(\s*<link[^>]*rel="stylesheet"[^>]*/>)+(\s+<link[^>]+style.css[^>]+/>)#', '$2', $resource_content);
 
 					// Remove useless HTML whitespace
 					if($minimize_html) {

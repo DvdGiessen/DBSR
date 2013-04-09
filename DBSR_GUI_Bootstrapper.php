@@ -138,6 +138,10 @@
 				case 'svg':
 					header('Content-Type: image/svg+xml');
 					break;
+
+				case 'ico':
+					header('Content-Type: image/vnd.microsoft.icon');
+					break;
 			}
 			header('Content-Disposition: inline; filename=' . basename($_GET['resource']));
 
