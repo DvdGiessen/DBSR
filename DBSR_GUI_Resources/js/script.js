@@ -161,6 +161,9 @@ jQuery(function($) {
 		// Show loader on next step
 		$next.block({message: 'Processing data from previous step...'});
 
+		// Variable for storing (optional) slide timeouts
+		var slideTimeout;
+
 		// Check if we're proceeding to the last step
 		if($next.parents('.slide').is(':last-child')) {
 			$next.block({message: 'Executing search and replace...'});
@@ -171,6 +174,11 @@ jQuery(function($) {
 					cursor: 'default'
 				}
 			});
+		} else {
+			// For all other steps, wait a short time before moving along to the next slide for improved user feedback
+			slideTimeout = setTimeout(function() {
+				$this.parents('.slide').next('.slide').children('h2').not('.selected').click();
+			}, 400);
 		}
 
 		// Do the AJAX request
@@ -180,6 +188,9 @@ jQuery(function($) {
 			data: $this.serialize(),
 			dataType: 'json',
 			success: function(response, status, xhr) {
+				// Clear the sliding timeout
+				clearTimeout(slideTimeout);
+
 				// Validation successful?
 				if(response.valid) {
 					// Remove the last message

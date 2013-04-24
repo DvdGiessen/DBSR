@@ -17,6 +17,11 @@
 	/**
 	 * Simple compilescript for DBSR.
 	 *
+	 * Compared to the rest of DBSR this code is a mess,
+	 * but since it's only used for compiling I never
+	 * spend to much time on refactoring this. Feel free
+	 * to do so. ;)
+	 *
 	 * @author Daniël van de Giessen
 	 * @package DBSR
 	 */
@@ -28,7 +33,7 @@
 	$minimize_css 	= TRUE;
 	$minimize_svg 	= TRUE;
 
-	// Compress entire source using a compression algorithm
+	// Compress entire PHP output file using a compression algorithm
 	// Valid options: none, gzip
 	// Note that gzip will void cross-platform compatibility!
 	$compress = 'none';
@@ -53,31 +58,61 @@
 	// Stop throwing irritating errors, we're simply compiling!
 	error_reporting(0);
 
-	// Google's Closure Compiler using the REST API
-	function closureCompiler($code) {
-		$data = http_build_query(array(
-				'js_code' => $code,
-				'compilation_level' => 'SIMPLE_OPTIMIZATIONS',
-				'output_format' => 'text',
-				'output_info' => 'compiled_code',
-			)
-		);
-		return file_get_contents(
-			'http://closure-compiler.appspot.com/compile',
-			FALSE,
-			stream_context_create(array(
-				'http' => array(
-					'method'  => 'POST',
-					'header'=> "Content-Type: application/x-www-form-urlencoded\r\n" . "Content-Length: " . strlen($data) . "\r\n",
-					'content' => $data,
-				),
-			))
-		);
+	// Uses UglifyJS... if you don't have it, get the latest version from GitHub <https://github.com/mishoo/UglifyJS2>
+	function jsCompiler($code) {
+		// Start uglifyjs
+		$process = proc_open('uglifyjs - -c unsafe=true', array(
+			0 => array('pipe', 'r'),
+			1 => array('pipe', 'w'),
+			2 => array('pipe', 'w'),
+		), $pipes);
+
+		// Check if uglifyjs could be found / started
+		if(is_resource($process)) {
+			// Write the code to STDIN for uglifyjs
+			fwrite($pipes[0], $code, strlen($code));
+
+			// Close the pipe so uglifyjs knows it's time to start
+			fclose($pipes[0]);
+
+			// Read the compressed output from STDOUT
+			$code_compressed = stream_get_contents($pipes[1]);
+
+			// Close STDOUT to prevent deadlocks
+			fclose($pipes[1]);
+
+			// Read any errors from STDERR
+			$errors = stream_get_contents($pipes[1]);
+
+			// Close STDOUT to prevent deadlocks
+			fclose($pipes[1]);
+
+			// Close the process handle
+			$return_value = proc_close($process);
+
+			// Check if the code compression completed succesfully
+			if($return_value > 0) {
+				// Something went wrong, return the old code
+				echo 'Warning: UglifyJS returned a non-zero value!', PHP_EOL;
+				if(!empty($errors)) echo $errors, PHP_EOL;
+				return $code;
+			} else {
+				// Return the compressed code
+				return $code_compressed;
+			}
+		} else {
+			// No uglifyjs, so just return the raw code
+			echo 'Warning: failed to run UglifyJS!', PHP_EOL;
+			return $code;
+		}
 	}
 
 	// Process dir function
 	function add_resources($dir, $prefix, &$source) {
 		global $minimize_php, $minimize_html, $minimize_js, $minimize_css, $minimize_svg;
+
+		// Record any winnings by compression
+		$compression_winnings = 0;
 
 		// Load up all resources in this directory
 		$resources = glob($dir . DIRECTORY_SEPARATOR . '*');
@@ -134,10 +169,13 @@
 				unset($resources[$key]);
 			}
 
-			// Compile
+			// Save length to calculate winnings
+			$resource_content_length = strlen($resource_content);
+
+			// Compile / minimize
 			if(preg_match('#/?js$#', $dir)) {
 				// JS using Closure Compiler
-				$resource_content = closureCompiler($resource_content);
+				$resource_content = jsCompiler($resource_content);
 			} else {
 				// CSS using regexes
 				$resource_content = preg_replace('#/\*.*?\*/#s', '', $resource_content);
@@ -148,6 +186,9 @@
 				$resource_content = preg_replace('/\s+/', ' ', $resource_content);
 				$resource_content = trim($resource_content);
 			}
+
+			// Calculate improvement by compression / minimization
+			$compression_winnings += $resource_content_length - strlen($resource_content);
 
 			// Write to source
 			if(preg_match('/[^\w\s[:print:]]/', $resource_content)) {
@@ -173,6 +214,9 @@
 			if(is_readable($resource) && is_file($resource)) {
 				if(!($resource_content = file_get_contents($resource))) die('Unable to load file ' . basename($resource));
 
+				// Save length to calculate winnings
+				$resource_content_length = strlen($resource_content);
+
 				// Special case: template file
 				if(basename($resource) == 'template.html') {
 					// Remove all JS tags to account for compression
@@ -194,6 +238,9 @@
 					$resource_content = str_replace('> <', '><', $resource_content);
 				}
 
+				// Calculate improvement by compression / minimization
+				$compression_winnings += $resource_content_length - strlen($resource_content);
+
 				if(preg_match('/[^\w\s[:print:]]/', $resource_content)) {
 					$resource_content = 'base64: ' . base64_encode($resource_content);
 				} else {
@@ -201,11 +248,12 @@
 				}
 				$source .= 'public static $' . preg_replace('/[^\w]/', '', preg_replace('#[/\\\\]#', '_', ($prefix == '' ? '' : ($prefix . '/')) . basename($resource))) . ' = ' . var_export($resource_content, TRUE) . ';' . "\n";
 			} elseif(is_readable($resource) && is_dir($resource)) {
-				add_resources($resource, ($prefix == '' ? '' : ($prefix . '/')) . basename($resource), $source);
+				$compression_winnings += add_resources($resource, ($prefix == '' ? '' : ($prefix . '/')) . basename($resource), $source);
 			} else {
 				die('Unable to load file ' . basename($resource));
 			}
 		}
+		return $compression_winnings;
 	}
 
 	function normalizeFileSize($size) {
@@ -215,11 +263,12 @@
 
 	// Process each file set
 	foreach($compile_sets as $name => $files) {
+		$compression_winnings = 0;
 		$source = '<?php';
 		foreach($files as $key => $file) {
 			if(is_readable($file) && is_dir($file)) {
 				$source .= ' class ' . $file . ' { ';
-				add_resources($file, '', $source);
+				$compression_winnings += add_resources($file, '', $source);
 				$source .= '
 					/**
 					 * Get the resource file content.
@@ -350,10 +399,10 @@
 				$compressed;
 
 			file_put_contents('compiled' . DIRECTORY_SEPARATOR . $name, $compressed);
-			echo 'Compiled file ', $name, ', total size is ' . normalizeFileSize(strlen($compressed)) . ' (including ', round(100 * (1 - (strlen($compressed) / strlen($source))), 1), '% reduction by compression)' . (PHP_SAPI == 'cli' ? '' : '<br />') . "\n";
+			echo 'Compiled file ', $name, ', total size is ' . normalizeFileSize(strlen($compressed)) . ' (including ', round(100 * (1 - (strlen($compressed) / (strlen($source) + $compression_winnings))), 1), '% reduction by compression)' . (PHP_SAPI == 'cli' ? '' : '<br />') . PHP_EOL;
 		} else {
 			file_put_contents('compiled' . DIRECTORY_SEPARATOR . $name, $source);
-			echo 'Compiled file ', $name, ', total size is ' . normalizeFileSize(strlen($source)) . (PHP_SAPI == 'cli' ? '' : '<br />') . "\n";
+			echo 'Compiled file ', $name, ', total size is ' . normalizeFileSize(strlen($source)) . (PHP_SAPI == 'cli' ? '' : '<br />') . PHP_EOL;
 		}
 	}
 

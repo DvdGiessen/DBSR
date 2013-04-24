@@ -105,6 +105,11 @@
 			switch(strtolower(preg_replace('/^.*\.(\w+)$/', '$1', $_GET['resource']))) {
 				case 'html':
 					header('Content-Type: text/html; charset=UTF-8');
+					// Internet Explorer has always held a special place in our code
+					// Try using Chrome Frame for IE8 and lower, and else at least disable the compatibility view
+					if(isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE) {
+						header('X-UA-Compatible: IE=edge,chrome=IE8');
+					}
 					break;
 
 				case 'css':

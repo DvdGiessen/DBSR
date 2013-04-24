@@ -46,7 +46,7 @@
 					'</head>' . "\n" .
 					'<body>' . "\n" .
     				"\t" . '<form action="' . @$_SERVER['argv'][0] . '" method="get">' . "\n" .
-    				"\t\t" . '<p>' . htmlspecialchars(@$_SERVER['argv'][0]) . ' <input type="text" name="args" value="' . htmlspecialchars(@$_GET['args']) . '" size="100" /></p>' . "\n" .
+    				"\t\t" . '<p>' . htmlspecialchars(@$_SERVER['argv'][0]) . ' <input type="text" name="args" value="' . htmlspecialchars(@$_GET['args']) . '" size="100" autofocus="autofocus"/></p>' . "\n" .
     				"\t" . '</form>' . "\n" .
     				"\t" . '<pre>' . htmlspecialchars($output) . '</pre>' . "\n" .
     				'</body>' . "\n" .
