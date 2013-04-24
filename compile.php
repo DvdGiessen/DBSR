@@ -82,10 +82,10 @@
 			fclose($pipes[1]);
 
 			// Read any errors from STDERR
-			$errors = stream_get_contents($pipes[1]);
+			$errors = stream_get_contents($pipes[2]);
 
-			// Close STDOUT to prevent deadlocks
-			fclose($pipes[1]);
+			// Close STDERR to prevent deadlocks
+			fclose($pipes[2]);
 
 			// Close the process handle
 			$return_value = proc_close($process);
