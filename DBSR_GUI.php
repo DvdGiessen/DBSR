@@ -20,7 +20,7 @@
 	 *
 	 * @author Daniël van de Giessen
 	 * @package DBSR
-	 * @version 2.0.2
+	 * @version 2.0.3
 	 */
 	class DBSR_GUI {
 		/* Constants */
@@ -28,7 +28,7 @@
 		 * Version string indicating the DBSR GUI version.
 		 * @var string
 		 */
-		const VERSION = '2.0.2';
+		const VERSION = '2.0.3';
 
 		/**
 		 * Formatting option: formats as a plain, HTML-safe, string.
@@ -641,11 +641,14 @@
 						$dbsr->setOption(DBSR::OPTION_CASE_INSENSITIVE, $this->options['dbsr_caseinsensitive']);
 						$dbsr->setOption(DBSR::OPTION_EXTENSIVE_SEARCH, $this->options['dbsr_extensivesearch']);
 
+						// Set the search- and replace-values
+						$dbsr->setValues($this->options['search'], $this->options['replace']);
+
 						// Reset the maximum step
 						$this->resetStep();
 
 						// Execute DBSR
-						$result = $dbsr->exec($this->options['search'], $this->options['replace']);
+						$result = $dbsr->exec();
 
 						// Return the result
 						return array(

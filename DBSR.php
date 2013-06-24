@@ -20,7 +20,7 @@
 	 *
 	 * @author Daniël van de Giessen
 	 * @package DBSR
-	 * @version 2.0.2
+	 * @version 2.1.0
 	 */
 	class DBSR {
 		/* Constants */
@@ -28,7 +28,7 @@
 		 * Version string indicating the DBSR version.
 		 * @var string
 		 */
-		const VERSION = '2.0.2';
+		const VERSION = '2.1.0';
 
 		/**
 		 * Option: use case-insensitive search and replace.
@@ -83,6 +83,12 @@
 		 * @var boolean
 		 */
 		const OPTION_HANDLE_SERIALIZE = 8;
+
+		/**
+		 * Option: reverses the filters causing to search *only* in mentioned tables/columns.
+		 * @var array
+		 */
+		const OPTION_REVERSED_FILTERS = 9;
 
 		/* Static methods */
 		/**
@@ -175,7 +181,14 @@
 			self::OPTION_VAR_CAST_REPLACE => TRUE,
 			self::OPTION_DB_WRITE_CHANGES => TRUE,
 			self::OPTION_HANDLE_SERIALIZE => TRUE,
+			self::OPTION_REVERSED_FILTERS => FALSE,
 		);
+
+		/**
+		 * The filters for tables/columns.
+		 * @var array
+		 */
+		protected $filters = array();
 
 		/**
 		 * The search-values.
@@ -230,7 +243,7 @@
 		}
 
 		/**
-         * Sets an option on the DBSR instance.
+         * Sets an option on this instance.
          *
          * @param 	integer $attribute 	The attribute to be set.
          * @param 	mixed 	$value 		The new value for the given attribute.
@@ -276,15 +289,127 @@
 		}
 
 		/**
-		 * Runs a search- and replace-action on the database.
+		 * Sets the filters by which to filter tables/columns.
+		 *
+		 * @param array 	$filters 	The filters as an associative array. For example:
+		 * 								array(
+		 *									'entire_table',
+		 *									array(
+		 *										'column',
+		 *										'in',
+		 *										'every',
+		 *										'table',
+		 *									),
+		 *									'table' => 'specific_column',
+		 *									'table' => array(
+		 *										'specific',
+		 *										'columns',
+		 *									),
+		 *								)
+		 */
+		public function setFilters(array $filters) {
+			// Array for the parsed filters
+			$filters_parsed = array();
+
+			// For each filter
+			foreach($filters as $key => $value) {
+				if(is_int($key)) {
+					if(is_string($value)) {
+						// Entire table
+						$filters_parsed[$value] = TRUE;
+					} elseif(is_array($value)) {
+						// Skip empty arrays
+						if(!count($value)) continue;
+
+						// Require strings
+						foreach($value as $v) if(!is_string($v)) throw new InvalidArgumentException('Only strings qualify as column names!');
+
+						// Save it
+						if(isset($filters_parsed['.'])) {
+							$filters_parsed['.'] = array_values(array_unique(array_merge($filters_parsed['.'], array_values($value))));
+						} else {
+							$filters_parsed['.'] = array_values(array_unique($value));
+						}
+					} else throw new InvalidArgumentException('The filter array can only contain strings or arrays!');
+				} else {
+					if(is_string($value)) {
+						// Single column
+						if(isset($filters_parsed[$key])) {
+							$filters_parsed[$key] = array_values(array_unique(array_merge($filters_parsed[$key], array($value))));
+						} else {
+							$filters_parsed[$key] = array($value);
+						}
+					} elseif(is_array($value)) {
+						// Skip empty arrays
+						if(!count($value)) continue;
+
+						// Require strings
+						foreach($value as $v) if(!is_string($v)) throw new InvalidArgumentException('Only strings qualify as column names!');
+
+						// Save it
+						if(isset($filters_parsed[$key])) {
+							$filters_parsed[$key] = array_values(array_unique(array_merge($filters_parsed[$key], array_values($value))));
+						} else {
+							$filters_parsed[$key] = array_values(array_unique($value));
+						}
+					} else throw new InvalidArgumentException('The filter array can only contain strings or arrays!');
+				}
+			}
+
+			// Save the parsed filters
+			$this->filters = $filters_parsed;
+		}
+
+		/**
+		 * Resets all filters.
+		 */
+		public function resetFilters() {
+			$this->filters = array();
+		}
+
+		/**
+		 * Indicated whether the given table / column is filtered.
+		 * @param string 	$table 		The name of the table.
+		 * @param string 	$column 	(Optional.) Then name of the column.
+		 */
+		public function isFiltered($table, $column = NULL) {
+			if($this->getOption(self::OPTION_REVERSED_FILTERS)) {
+				// Reversed filters
+				if($column == NULL) {
+					// Never filter reversed based on table only, since there may be non-table-specific columns in it
+					return FALSE;
+				} else {
+					// Process columns if the entire table is filtered or if the column is filtered for either this table or in global
+					return !(
+						isset($this->filters[$table]) && $this->filters[$table] === TRUE ||
+						isset($this->filters[$table]) && in_array($column, $this->filters[$table], TRUE) ||
+						isset($this->filters['.']) && in_array($column, $this->filters['.'], TRUE)
+					);
+				}
+			} else {
+				// Normal filters
+				if($column == NULL) {
+					// Only skip tables if the entire table is filtered
+					return isset($this->filters[$table]) && $this->filters[$table] === TRUE;
+				} else {
+					// Skip columns if the entire table is filtered or if the column is filtered for either this table or in global
+					return
+						isset($this->filters[$table]) && $this->filters[$table] === TRUE ||
+						isset($this->filters[$table]) && in_array($column, $this->filters[$table], TRUE) ||
+						isset($this->filters['.']) && in_array($column, $this->filters['.'], TRUE)
+					;
+				}
+			}
+		}
+
+		/**
+		 * Sets the search- and replace-values.
+		 *
 		 * @param 	array 						$search 	The values to search for.
 		 * @param 	array 						$replace 	The values to replace with.
 		 * @throws 	InvalidArgumentException 				If the search- or replace-values are invalid.
-		 * @throws 	PDOException							If any database error occurs.
-		 * @throws 	UnexpectedValueException 				If an error occurs processing data retrieved from the database.
-		 * @return 	integer 								The number of changed rows.
 		 */
-		public function exec(array $search, array $replace) {
+		public function setValues(array $search, array $replace) {
 			// Check array lengths
 			if(count($search) == 0 || count($replace) == 0 || count($search) != count($replace)) {
 				throw new InvalidArgumentException('The number of search- and replace-values is invalid!');
@@ -309,7 +434,16 @@
 			// Set the values
 			$this->search = $search;
 			$this->replace = $replace;
+		}
 
+		/**
+		 * Runs a search- and replace-action on the database.
+		 *
+		 * @throws 	PDOException				If any database error occurs.
+		 * @throws 	UnexpectedValueException 	If an error occurs processing data retrieved from the database.
+		 * @return 	integer 					The number of changed rows.
+		 */
+		public function exec() {
 			// Remove the time limit
 			if(!ini_get('safe_mode') && ini_get('max_execution_time') != '0') {
 				set_time_limit(0);
@@ -361,9 +495,9 @@
 				// Lock each table
 				$this->pdo->query('LOCK TABLES `' . implode('` WRITE, `', $tables) . '` WRITE;');
 
-				// Loop through all the tables
+				// Loop through all the (non-filtered) tables
 				foreach($tables as $table) {
-					$result += $this->_DBRTable($table, $callback);
+					if(!$this->isFiltered($table)) $result += $this->_DBRTable($table, $callback);
 				}
 			} catch(Exception $e) {}
 
@@ -429,14 +563,21 @@
 				$keys = $columns;
 			}
 
+			// Filter columns
+			foreach($columns as $column => $column_info) {
+				if($this->isFiltered($table, $column)) unset($columns[$column]);
+			}
+
 			// Prepare a smart WHERE-statement
 			if(!$this->getOption(self::OPTION_EXTENSIVE_SEARCH)) {
 				$where = $this->_DBRWhereSearch($columns);
-				if(!$where) return;
 			} else {
 				// No WHERE-statement
 				$where = '';
 			}
+
+			// Check if after filtering and WHERE-matching any valid columns are left
+			if(count($columns) == 0) return;
 
 			// Convert search-values to the correct charsets
 			if($this->getOption(self::OPTION_CONVERT_CHARSETS)) {
@@ -570,17 +711,24 @@
 		 * 								(thus the table may be skipped).
 		 */
 		private function _DBRWhereSearch(array &$columns) {
+			// Array for WHERE-clause elements
 			$where = array();
+
+			// Loop over all columns
 			foreach($columns as $column => $column_info) {
+				// By default there's no reason to include this column
 				$where_column = FALSE;
+
+				// Loop over all search items
 				foreach($this->search as $item) {
+					// If there's a valid WHERE-component, add it
 					if($where_component = $this->_DBRWhereColumn($column, $column_info, $item, FALSE)) {
 						$where[] = $where_component;
 						$where_column = TRUE;
 					}
 				}
 
-				// Remove all columns which will never match
+				// Remove all columns which will never match since no valid WHERE-components could be constructed
 				if(!$where_column) unset($columns[$column]);
 			}
 
@@ -619,7 +767,8 @@
 		 * @param 	mixed 	$value			The value to match.
 		 * @param 	boolean $string_exact 	Whether to use 'LIKE %value%'-style matching.
 		 *
-		 * @return 	string					The WHERE component for the given parameters.
+		 * @return 	mixed					The WHERE component for the given parameters as a string,
+		 * 									or FALSE if the value is not valid for the given column.
 		 */
 		private function _DBRWhereColumn($column, array $column_info, $value, $string_exact) {
 			switch($column_info['type']) {

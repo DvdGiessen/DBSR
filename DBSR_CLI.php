@@ -327,8 +327,11 @@
 					$this->dbsr->setOption($option, $value);
 				}
 
+				// Set the search- and replace-values
+				$this->dbsr->setValues($this->search, $this->replace);
+
 				// Execute DBSR
-				$result = $this->dbsr->exec($this->search, $this->replace);
+				$result = $this->dbsr->exec();
 			} catch(Exception $e) {
 				// Check the output type for the exception
 				switch($this->options['CLI']['output']) {

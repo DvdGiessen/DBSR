@@ -144,7 +144,7 @@
 			}
 
 			// Set the timezone
-			date_default_timezone_set('Europe/Amsterdam');
+			date_default_timezone_set('UTC');
 
 			// Set initialization status
 			self::$is_initialized = TRUE;
@@ -171,11 +171,11 @@
 					'client_ua' 	=> $_SERVER['HTTP_USER_AGENT']
 			);
 
+			// Set the session life time to 24 hours
+			@ini_set('sessions.gc_maxlifetime', (string) (60 * 60 * 24));
+
 			// Set the session name
 			session_name('DBSR_session');
-
-			// Randomize session id
-			session_regenerate_id();
 
 			// Open a session to access and store user data
 			session_start();

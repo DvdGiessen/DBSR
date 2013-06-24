@@ -32,6 +32,7 @@ jQuery(function($) {
 							$(this).val(response.data[i]);
 						}
 					} else {
+						if(response.data[i] === null) response.data[i] = '';
 						$(this).text(response.data[i]);
 					}
 				});

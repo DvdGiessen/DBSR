@@ -3,7 +3,6 @@ ToDo-list for the DBSR project, in non-specific order
 DBSR:
  - Write a set of (unit) tests for DBSR and helper classes
  - Add option to generate extensive logging (specific rows changed, comparision various callbacks, etc)
- - Ability to limit the tables / columns / rows being searched (set of DBSR::OPTION_* constants)
 
 DBSR_GUI:
  - Allow casting of input integers or floats combined with an option to enable strict search
