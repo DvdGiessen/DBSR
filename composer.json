@@ -1,0 +1,15 @@
+{
+    "name": "dvdgiessen/dbsr",
+    "description": "Database Search & Replace",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "DvdGiessen",
+            "email": "dvdgiessen@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+
+    }
+}
