@@ -136,11 +136,12 @@
 			@ini_set('pcre.recursion_limit', '100');
 
 			// Set internal character encoding
+			@ini_set('default_charset', 'UTF-8');
 			if(extension_loaded('mbstring')) {
-				mb_internal_encoding('UTF-8');
+				@mb_internal_encoding('UTF-8');
 			}
-			if(extension_loaded('iconv')) {
-				iconv_set_encoding('internal_encoding', 'UTF-8');
+			if(version_compare(PHP_VERSION, '5.6', '<') && extension_loaded('iconv')) {
+				@iconv_set_encoding('internal_encoding', 'UTF-8');
 			}
 
 			// Set the timezone
