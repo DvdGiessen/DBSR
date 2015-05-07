@@ -1,0 +1,10 @@
+# Exclude common IDE files
+.project
+.buildpath
+.settings/
+.komodoproject
+
+# Exclude common OS-files
+Thumbs.db
+__MACOSX
+.DS_Store

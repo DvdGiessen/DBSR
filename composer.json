@@ -1,0 +1,20 @@
+{
+    "name": "dvdgiessen/dbsr",
+    "description": "Database Search & Replace",
+    "keywords": ["DBSR", "database", "search", "replace"],
+    "homepage": "https://github.com/DvdGiessen/DBSR",
+    "license": "GPL-3.0",
+    "authors": [{
+            "name": "DvdGiessen",
+            "email": "dbsr@dvdgiessen.nl",
+            "homepage": "http://www.dvdgiessen.nl/"
+    }],
+    "support": {
+        "issues": "https://github.com/DvdGiessen/DBSR/issues",
+        "source": "https://github.com/DvdGiessen/DBSR"
+    },
+    "require": {
+        "php": ">=5.3"
+    },
+    "minimum-stability": "dev"
+}
