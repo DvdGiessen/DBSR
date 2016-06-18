@@ -126,7 +126,7 @@
 				$_REQUEST = self::stripslashes_recursive($_REQUEST);
 				@ini_set('magic_quotes_gpc', FALSE);
 			}
-			if(function_exists('get_magic_quotes_gpc')) @set_magic_quotes_runtime(FALSE);
+			if(function_exists('get_magic_quotes_gpc') && function_exists('set_magic_quotes_runtime')) @set_magic_quotes_runtime(FALSE);
 
 			// Try to remove any memory limitations
 			@ini_set('memory_limit', '-1');
