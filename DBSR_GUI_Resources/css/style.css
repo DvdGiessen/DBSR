@@ -14,167 +14,167 @@
  * along with DBSR.  If not, see <http://www.gnu.org/licenses/>.
  */
 html {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 
-	background-color: #F2F2F2;
+    background-color: #F2F2F2;
 }
 
 body {
-	position: relative;
+    position: relative;
 
-	width: 90%;
-	height: 94%;
-	margin: 0 auto 0;
+    width: 90%;
+    height: 94%;
+    margin: 0 auto 0;
 
-	min-width: 900px;
-	min-height: 650px;
+    min-width: 900px;
+    min-height: 650px;
 
-	font-family: 'Source Sans Pro', Verdana, Geneva, sans-serif;
-	font-size: 16px;
+    font-family: 'Source Sans Pro', Verdana, Geneva, sans-serif;
+    font-size: 16px;
 }
 
 h2 {
-	font-size: 24px;
-	font-weight: bolder;
-	margin-top: 15px;
+    font-size: 24px;
+    font-weight: bolder;
+    margin-top: 15px;
 }
 
 p {
-	margin: 10px 0;
+    margin: 10px 0;
 }
 
 code, input[type="text"], textarea {
-	font-family: 'Source Code Pro', 'Consolas', 'Courier New', monospace;
+    font-family: 'Source Code Pro', 'Consolas', 'Courier New', monospace;
 }
 
 body > h1 {
-	height: 4%;
-	margin-top: 0.75%;
-	margin-left: 2%;
+    height: 4%;
+    margin-top: 0.75%;
+    margin-left: 2%;
 
-	font-family: 'Source Code Pro', 'Consolas', 'Courier New', monospace;
-	font-weight: normal;
-	font-size: 26px;
-	text-shadow: 2px 2px 2px #999999;
+    font-family: 'Source Code Pro', 'Consolas', 'Courier New', monospace;
+    font-weight: normal;
+    font-size: 26px;
+    text-shadow: 2px 2px 2px #999999;
 }
 
 body > .version {
-	position: absolute;
-	top: 0;
-	right: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
 
-	height: 4%;
-	margin-top: 0.75%;
-	margin-left: 2%;
+    height: 4%;
+    margin-top: 0.75%;
+    margin-left: 2%;
 
-	font-family: 'Source Code Pro', 'Consolas', 'Courier New', monospace;
-	font-weight: normal;
-	font-size: 12px;
-	text-shadow: 2px 2px 2px #999999;
+    font-family: 'Source Code Pro', 'Consolas', 'Courier New', monospace;
+    font-weight: normal;
+    font-size: 12px;
+    text-shadow: 2px 2px 2px #999999;
 }
 
 #container {
-	width: 100%;
-	height: 96% !important;
+    width: 100%;
+    height: 96% !important;
 
-	margin-top: 0.75%;
+    margin-top: 0.75%;
 
-	border: 1px solid #333333;
-	box-shadow: 0 0 20px #737373;
+    border: 1px solid #333333;
+    box-shadow: 0 0 20px #737373;
 
-	background-color: #FFFFFF;
+    background-color: #FFFFFF;
 }
 #container .slide > h2 {
-	width: 48px !important;
-	height: 100% !important;
-	-webkit-transform: none;
-	   -moz-transform: none;
-	    -ms-transform: none;
-	     -o-transform: none;
-	        transform: none;
+    width: 48px !important;
+    height: 100% !important;
+    -webkit-transform: none;
+       -moz-transform: none;
+        -ms-transform: none;
+         -o-transform: none;
+            transform: none;
 
-	font-family: 'Source Code Pro', 'Consolas', 'Courier New', monospace;
+    font-family: 'Source Code Pro', 'Consolas', 'Courier New', monospace;
 }
 #container .slide > h2 span {
-	height: 44px;
-	width: 99999px;
-	margin-top: 25px;
-	margin-left: 4px;
-	padding-right: 0;
-	vertical-align: baseline;
-	-webkit-transform: translateX(-100%) rotate(-90deg);
-	   -moz-transform: translateX(-100%) rotate(-90deg);
-	    -ms-transform: translateX(-100%) rotate(-90deg);
-	     -o-transform: translateX(-100%) rotate(-90deg);
-	        transform: translateX(-100%) rotate(-90deg);
+    height: 44px;
+    width: 99999px;
+    margin-top: 25px;
+    margin-left: 4px;
+    padding-right: 0;
+    vertical-align: baseline;
+    -webkit-transform: translateX(-100%) rotate(-90deg);
+       -moz-transform: translateX(-100%) rotate(-90deg);
+        -ms-transform: translateX(-100%) rotate(-90deg);
+         -o-transform: translateX(-100%) rotate(-90deg);
+            transform: translateX(-100%) rotate(-90deg);
 
-	-webkit-transform-origin: right top;
-	   -moz-transform-origin: right top;
-	    -ms-transform-origin: right top;
-	     -o-transform-origin: right top;
-	        transform-origin: right top;
+    -webkit-transform-origin: right top;
+       -moz-transform-origin: right top;
+        -ms-transform-origin: right top;
+         -o-transform-origin: right top;
+            transform-origin: right top;
 }
 #container .slide > h2 b {
-	top: auto;
-	bottom: 10px;
-	left: 18px;
-	font-size: 22px;
-	-webkit-transform: none;
-	   -moz-transform: none;
-	    -ms-transform: none;
-	     -o-transform: none;
-	        transform: none;
+    top: auto;
+    bottom: 10px;
+    left: 18px;
+    font-size: 22px;
+    -webkit-transform: none;
+       -moz-transform: none;
+        -ms-transform: none;
+         -o-transform: none;
+            transform: none;
 }
 
 #container .slide > div {
-	height: 100%;
-	overflow: auto;
+    height: 100%;
+    overflow: auto;
 }
 
 #container .slide > div > div {
-	position: relative;
-	height: auto;
-	min-height: 100%;
-	min-height: -webkit-calc(100% - 2px);
-	min-height:    -moz-calc(100% - 2px);
-	min-height:     -ms-calc(100% - 2px);
-	min-height:      -o-calc(100% - 2px);
-	min-height:         calc(100% - 2px);
-	padding: 1px 0;
+    position: relative;
+    height: auto;
+    min-height: 100%;
+    min-height: -webkit-calc(100% - 2px);
+    min-height:    -moz-calc(100% - 2px);
+    min-height:     -ms-calc(100% - 2px);
+    min-height:      -o-calc(100% - 2px);
+    min-height:         calc(100% - 2px);
+    padding: 1px 0;
 }
 
 #container .slide > div form {
-	margin: 40px 40px 0;
+    margin: 40px 40px 0;
 }
 
 div.blockUI.blockOverlay {
-	background-color: 	#000;
-	opacity: 			0.6;
-	cursor: 			wait;
+    background-color:     #000;
+    opacity:             0.6;
+    cursor:             wait;
 }
 
 div.blockUI.blockMsg {
-	width: 					30%;
-	top: 					40%;
-	left: 					35%;
-	text-align: 			center;
-	padding: 				5px;
-	opacity: 				0.6;
-	cursor: 				wait;
-	color: 					#fff;
-	background-color: 		#000;
-	-webkit-border-radius: 	10px;
-	   -moz-border-radius: 	10px;
-	    -ms-border-radius: 	10px;
-	     -o-border-radius: 	10px;
-	        border-radius: 	10px;
+    width:                     30%;
+    top:                       40%;
+    left:                      35%;
+    text-align:                center;
+    padding:                   5px;
+    opacity:                   0.6;
+    cursor:                    wait;
+    color:                     #fff;
+    background-color:          #000;
+    -webkit-border-radius:     10px;
+       -moz-border-radius:     10px;
+        -ms-border-radius:     10px;
+         -o-border-radius:     10px;
+            border-radius:     10px;
 }
 
 .errormessage {
-	color: red;
-	font-weight: bolder;
-	font-size: 14px;
+    color: red;
+    font-weight: bolder;
+    font-size: 14px;
 }
 
 table {
@@ -188,22 +188,22 @@ table td, table th {
 }
 
 input[type="text"], input[type="password"] {
-	min-width: 180px;
+    min-width: 180px;
 }
 
 .values-switch {
-	color: #808080;
+    color: #808080;
 }
 .values-switch a {
-	color: #808080;
+    color: #808080;
 }
 .values-switch a:hover {
-	color: #737373;
+    color: #737373;
 }
 .values-switch a.active {
-	font-weight: bold;
-	color: #8C8C8C;
+    font-weight: bold;
+    color: #8C8C8C;
 }
 .values-switch a.active:hover {
-	color: #8C8C8C;
+    color: #8C8C8C;
 }

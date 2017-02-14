@@ -2,6 +2,7 @@
 .project
 .buildpath
 .settings/
+.externalToolBuilders/
 .komodoproject
 
 # Exclude common OS-files
