@@ -127,7 +127,7 @@ class DBSR_GUI {
                     $result .= str_pad(implode(' ', str_split($line, 2)), 3 * $width, ' ', STR_PAD_RIGHT);
                     $result .= ' [<i>';
                     $result .= htmlspecialchars(str_pad($chars[$i], $width, ' ', STR_PAD_RIGHT));
-                    $result .= '</i>]' . "\n";
+                    $result .= '</i>]<br />' . "\n";
                     $offset += $width;
                 }
                 break;
