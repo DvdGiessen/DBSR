@@ -480,6 +480,11 @@ class DBSR {
             // Get a list of all tables
             $tables = $this->pdo->query('SHOW TABLES;', PDO::FETCH_COLUMN, 0)->fetchAll();
 
+            // If there are no tables, throw an error
+            if(count($tables) == 0) {
+                throw new Exception('Database does not contain any tables.');
+            }
+
             // Lock each table
             $this->pdo->query('LOCK TABLES `' . implode('` WRITE, `', $tables) . '` WRITE;');
 
