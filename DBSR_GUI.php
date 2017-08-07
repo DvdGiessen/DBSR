@@ -675,6 +675,10 @@ class DBSR_GUI {
                     return array(
                         'valid' => TRUE,
                         'error' => $e->getMessage(),
+                        'errorCode'  => $e->getCode(),
+                        'errorFile'  => $e->getFile(),
+                        'errorLine'  => $e->getLine(),
+                        'errorTrace' => $e->getTrace(),
                     );
                 }
 
