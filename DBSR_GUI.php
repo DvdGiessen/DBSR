@@ -252,6 +252,9 @@ class DBSR_GUI {
             return FALSE;
         }
 
+        // Correct resource path separators
+        $resource = str_replace('/', DIRECTORY_SEPARATOR, $resource);
+
         // Add path to filename
         $resource = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'DBSR_GUI_Resources' . DIRECTORY_SEPARATOR . $resource;
 
