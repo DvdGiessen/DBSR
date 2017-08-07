@@ -78,7 +78,14 @@ class DBSR {
      */
     public static function createClass($className) {
         if(!class_exists($className, FALSE)) {
-            eval('class ' . $className . ' {}');
+            $classArray = explode('\\', $className);
+            if(count($classArray) > 1) {
+                $className = array_pop($classArray);
+                $namespace = implode('\\', $classArray);
+                eval('namespace ' . $namespace . ' { class ' . $className . ' {} }');
+            } else {
+                eval('class ' . $className . ' {}');
+            }
         }
     }
 
@@ -99,19 +106,19 @@ class DBSR {
             '/^\s*BOOL(EAN)?\s*$/i'                                                 => 'boolean',
 
             /* Integer types */
-            '/^\s*TINYINT\s*(?:\(\s*\d+\s*\)\s*)?$/i'                                 => 'integer',
-            '/^\s*SMALLINT\s*(?:\(\s*\d+\s*\)\s*)?$/i'                                 => 'integer',
+            '/^\s*TINYINT\s*(?:\(\s*\d+\s*\)\s*)?$/i'                               => 'integer',
+            '/^\s*SMALLINT\s*(?:\(\s*\d+\s*\)\s*)?$/i'                              => 'integer',
             '/^\s*MEDIUMINT\s*(?:\(\s*\d+\s*\)\s*)?$/i'                             => 'integer',
-            '/^\s*INT(EGER)?\s*(?:\(\s*\d+\s*\)\s*)?$/i'                             => 'integer',
-            '/^\s*BIGINT\s*(?:\(\s*\d+\s*\)\s*)?$/i'                                 => 'integer',
+            '/^\s*INT(EGER)?\s*(?:\(\s*\d+\s*\)\s*)?$/i'                            => 'integer',
+            '/^\s*BIGINT\s*(?:\(\s*\d+\s*\)\s*)?$/i'                                => 'integer',
 
             /* Float types */
-            '/^\s*FLOAT\s*(?:\(\s*\d+\s*(?:,\s*\d+\s*)?\)\s*)?$/i'                     => 'float',
-            '/^\s*DOUBLE(\s+PRECISION)?\s*(?:\(\s*\d+\s*(?:,\s*\d+\s*)?\)\s*)?$/i'     => 'float',
-            '/^\s*REAL\s*(?:\(\s*\d+\s*(?:,\s*\d+\s*)?\)\s*)?$/i'                     => 'float',
+            '/^\s*FLOAT\s*(?:\(\s*\d+\s*(?:,\s*\d+\s*)?\)\s*)?$/i'                  => 'float',
+            '/^\s*DOUBLE(\s+PRECISION)?\s*(?:\(\s*\d+\s*(?:,\s*\d+\s*)?\)\s*)?$/i'  => 'float',
+            '/^\s*REAL\s*(?:\(\s*\d+\s*(?:,\s*\d+\s*)?\)\s*)?$/i'                   => 'float',
             '/^\s*DEC(IMAL)?\s*(?:\(\s*\d+\s*(?:,\s*\d+\s*)?\)\s*)?$/i'             => 'float',
-            '/^\s*NUMERIC\s*(?:\(\s*\d+\s*(?:,\s*\d+\s*)?\)\s*)?$/i'                 => 'float',
-            '/^\s*FIXED\s*(?:\(\s*\d+\s*(?:,\s*\d+\s*)?\)\s*)?$/i'                     => 'float',
+            '/^\s*NUMERIC\s*(?:\(\s*\d+\s*(?:,\s*\d+\s*)?\)\s*)?$/i'                => 'float',
+            '/^\s*FIXED\s*(?:\(\s*\d+\s*(?:,\s*\d+\s*)?\)\s*)?$/i'                  => 'float',
         );
 
         // Try each type
@@ -156,16 +163,16 @@ class DBSR {
      * @var array
      */
     protected $options = array(
-        self::OPTION_CASE_INSENSITIVE => FALSE,
-        self::OPTION_EXTENSIVE_SEARCH => FALSE,
-        self::OPTION_SEARCH_PAGE_SIZE => 10000,
-        self::OPTION_VAR_MATCH_STRICT => TRUE,
-        self::OPTION_FLOATS_PRECISION => 5,
-        self::OPTION_CONVERT_CHARSETS => TRUE,
-        self::OPTION_VAR_CAST_REPLACE => TRUE,
-        self::OPTION_DB_WRITE_CHANGES => TRUE,
-        self::OPTION_HANDLE_SERIALIZE => TRUE,
-        self::OPTION_REVERSED_FILTERS => FALSE,
+        self::OPTION_CASE_INSENSITIVE  =>  FALSE,
+        self::OPTION_EXTENSIVE_SEARCH  =>  FALSE,
+        self::OPTION_SEARCH_PAGE_SIZE  =>  10000,
+        self::OPTION_VAR_MATCH_STRICT  =>  TRUE,
+        self::OPTION_FLOATS_PRECISION  =>  5,
+        self::OPTION_CONVERT_CHARSETS  =>  TRUE,
+        self::OPTION_VAR_CAST_REPLACE  =>  TRUE,
+        self::OPTION_DB_WRITE_CHANGES  =>  TRUE,
+        self::OPTION_HANDLE_SERIALIZE  =>  TRUE,
+        self::OPTION_REVERSED_FILTERS  =>  FALSE,
     );
 
     /**
