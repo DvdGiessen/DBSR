@@ -43,7 +43,7 @@ error_reporting(0);
 // Uses UglifyJS... if you don't have it, get the latest version from GitHub <https://github.com/mishoo/UglifyJS2>
 function jsCompiler($code) {
     // Start uglifyjs
-    $process = proc_open('uglifyjs - -c unsafe=true', array(
+    $process = proc_open('uglifyjs -c unsafe=true', array(
         0 => array('pipe', 'r'),
         1 => array('pipe', 'w'),
         2 => array('pipe', 'w'),
