@@ -4,6 +4,7 @@
 .settings/
 .externalToolBuilders/
 .komodoproject
+.vscode/
 
 # Exclude common OS-files
 Thumbs.db

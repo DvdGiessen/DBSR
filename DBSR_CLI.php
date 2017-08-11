@@ -32,7 +32,7 @@ class DBSR_CLI {
             'file' => array(
                 'name' => array('file', 'configfile', 'config', 'f'),
                 'parameter' => 'FILENAME',
-                'description' => 'JSON-encoded configfile to load',
+                'description' => 'JSON-encoded config file to load',
                 'default_value' => NULL,
             ),
             'output' => array(
@@ -413,7 +413,15 @@ class DBSR_CLI {
 
                         // Special cases
                         switch($option['set'] . '/' . $option['id']) {
+                            case 'CLI/output':
+                                if($arg == 'json' && !extension_loaded('json')) {
+                                    exit('Error: The PHP JSON extension is not available!');
+                                }
+                                break;
                             case 'CLI/file':
+                                if(!extension_loaded('json')) {
+                                    exit('Error: The PHP JSON extension is not available!');
+                                }
                                 if(!$this->parseConfig($arg)) {
                                     exit('Failed to parse config file: ' . (string) $arg);
                                 }

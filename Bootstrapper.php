@@ -157,10 +157,10 @@ class Bootstrapper {
     public static function sessionStart() {
         // Determine current security data
         $security_data = array(
-                'server_ip'        => $_SERVER['SERVER_ADDR'],
-                'server_file'     => __FILE__,
-                'client_ip'     => $_SERVER['REMOTE_ADDR'],
-                'client_ua'     => $_SERVER['HTTP_USER_AGENT']
+                'server_ip'    => @$_SERVER['SERVER_ADDR'],
+                'server_file'  => __FILE__,
+                'client_ip'    => $_SERVER['REMOTE_ADDR'],
+                'client_ua'    => $_SERVER['HTTP_USER_AGENT']
         );
 
         // Set the session life time to 24 hours

@@ -1,6 +1,8 @@
 <?php
 /**
  * Basic index file for easy usage of the development version.
+ * Note that you shouldn't use this file in production, use a
+ * compiled file instead!
  */
 
 // Turn up error reporting so parse errors in the bootstrappers will be shown
