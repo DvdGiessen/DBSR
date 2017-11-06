@@ -113,7 +113,7 @@
                             </table>
                             <p>
                                 When searching for a specific string it's sometimes useful to enter escaped sequences such as "<code>\n</code>" or <code>\x5C</code>".<br />
-                                Checking the box below will make the script interpret all escaped sequences as PHP would in a double-quoted string.<br />
+                                Checking the box below will make DBSR interpret all escaped sequences as PHP would in a double-quoted string.<br />
                                 <input type="checkbox" name="escapedvalues" id="escapedvalues" class="data-escapedvalues" /><label for="escapedvalues">Interpret PHP escaped sequences.</label>
                             </p>
                             <p>
@@ -122,10 +122,11 @@
                                 <input type="checkbox" name="dbsr_caseinsensitive" id="dbsr_caseinsensitive" class="data-dbsr_caseinsensitive" /><label for="dbsr_caseinsensitive">Case-insensitive search.</label>
                             </p>
                             <p>
-                                For performance reasons, the script normally only processes rows which contain one or more of the plain search strings.<br />
-                                Checking the box below will make the script process <b>every</b> row in the entire database.<br />
-                                This may be useful when due to serialization the exact search strings do not occour in the database or if using this script to repair currupted serialized strings.<br />
-                                <input type="checkbox" name="dbsr_extensivesearch" id="dbsr_extensivesearch" class="data-dbsr_extensivesearch" /><label for="dbsr_extensivesearch">Run a extended search.</label>
+                                For performance reasons, DBSR normally only processes rows which contain one or more of the plain search strings.<br />
+                                Checking the box below will make DBSR search through <b>every</b> field in the entire database, even if the search string does not occur in it.<br />
+                                This may be useful when due to serialization the exact search strings do not occour in the database or when using DBSR to repair currupted serialized strings.<br />
+                                <i>Note:</i> This makes DBSR a lot slower. In most cases, when there are no special characters in your search value, you shouldn't use this option.<br />
+                                <input type="checkbox" name="dbsr_extensivesearch" id="dbsr_extensivesearch" class="data-dbsr_extensivesearch" /><label for="dbsr_extensivesearch">Run an extended search.</label>
                             </p>
                             <p>
                                 <input type="hidden" name="step" value="2" />
@@ -188,11 +189,11 @@
                             </table>
                             <div class="html-suggestions"></div>
                             <p>
-                                Always make a backup of your database before using this script!<br />
+                                It is highly recommended to make a backup of your database before using DBSR!<br />
                                 If you haven't done so yet, do it now! Remember Murphy's law!
                             </p>
                             <p>
-                                <input type="checkbox" name="confirmed" id="confirmed" /><label for="confirmed">This data is correct.</label>
+                                <input type="checkbox" name="confirmed" id="confirmed" /><label for="confirmed">Yes, I have read the warnings above and checked that the search and replaces values are correct.</label>
                             </p>
                             <p>
                                 <input type="hidden" name="step" value="3" />
@@ -214,7 +215,7 @@
                                 <span class="data-result">RESULT</span> occurence(s) found and replaced.
                             </p>
                             <p>
-                                <input type="checkbox" name="selfdestruct" id="selfdestruct" disabled="disabled" /><label for="selfdestruct">Delete this script from the server.</label><br />
+                                <input type="checkbox" name="selfdestruct" id="selfdestruct" disabled="disabled" /><label for="selfdestruct">Delete DBSR from the web server.</label><br />
                                 <input type="submit" value="Restart" />
                             </p>
                             <p class="errormessage"></p>

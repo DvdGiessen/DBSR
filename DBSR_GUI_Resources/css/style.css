@@ -177,6 +177,10 @@ div.blockUI.blockMsg {
     font-size: 14px;
 }
 
+i, .html-suggestions {
+    font-style: italic;
+}
+
 table {
     border-collapse: collapse;
 }

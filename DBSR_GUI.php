@@ -789,14 +789,14 @@ class DBSR_GUI {
             for($j = 0; $j < strlen($this->options['search'][$i]) && !$specialchars; $j++) {
                 $ord = ord($this->options['search'][$i][$j]);
                 if($ord < 9 || ($ord > 10 && $ord < 13) || ($ord > 13 && $ord < 32) || $ord >= 127) {
-                    $messages[] = 'There are some non-ASCII characters in your search value(s).<br />Be aware that this script does not provide any transliteration support, thus leaving character encoding entirely up to your browser and the database. Be sure to set the correct charset!';
+                    $messages[] = 'There are some non-ASCII characters in your search value(s).<br />Be aware that DBSR does not provide any transliteration support, thus leaving character encoding entirely up to your browser and the database. Be sure to set the correct charset, and optionally use the "extended search" option of DBSR.';
                     $specialchars = TRUE;
                 }
             }
             for($j = 0; $j < strlen($this->options['replace'][$i]) && !$specialchars; $j++) {
                 $ord = ord($this->options['replace'][$i][$j]);
                 if($ord < 9 || ($ord > 10 && $ord < 13) || ($ord > 13 && $ord < 32) || $ord >= 127) {
-                    $messages[] = 'There are some non-ASCII characters in your replace value(s).<br />Be aware that this script does not provide any transliteration support, thus leaving character encoding entirely up to your browser and the database. Be sure to set the correct charset!';
+                    $messages[] = 'There are some non-ASCII characters in your replace value(s).<br />Be aware that DBSR does not provide any transliteration support, thus leaving character encoding entirely up to your browser and the database. Be sure to set the correct charset, and optionally use the "extended search" option of DBSR.';
                     $specialchars = TRUE;
                 }
             }

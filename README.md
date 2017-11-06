@@ -22,6 +22,11 @@ You can either download the CLI version which you can use from the command
 line, or the GUI version which can be uploaded to a webserver and accessed
 through a web browser.
 
+*Note:* Some tutorials make you download this entire repository and put it on
+your web server. I do not recommend this. For most users, just downloading the
+GUI version ([DBSearchReplace-GUI.php](https://github.com/DvdGiessen/DBSR/releases))
+and uploading that to your web server is the recommended way to use DBSR.
+
 ### GUI version
 ![Screenshot of the DBSR GUI](screenshot.png)
 
@@ -32,6 +37,8 @@ help prevent common mistakes, and the ability to delete itself after you've
 completed all your work.
 
 ### CLI version
+Usage of the CLI version is best explained by the built-in `--help` output:
+
 ```
 Usage: DBSearchReplace-CLI.php [options] -- SEARCH REPLACE [SEARCH REPLACE...]
        DBSearchReplace-CLI.php --file FILENAME
@@ -74,10 +81,12 @@ DBSR options:
                                             their PHP types (default: true)
 ```
 
+For an example of a configuration file, see [example-config.json](example-config.json).
+
 ## Issues?
 If you encounter any issues with DBSR, [open an issue on GitHub
-](https://github.com/DvdGiessen/DBSR/issues/new) and provide as many details as
-needed.
+](https://github.com/DvdGiessen/DBSR/issues/new) and provide as much details as
+possible.
 
 ## License
 DBSR is free software licensed under the GPLv3. See LICENSE for more information.
