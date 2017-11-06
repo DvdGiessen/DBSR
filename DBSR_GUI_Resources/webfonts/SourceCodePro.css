@@ -4,12 +4,12 @@
   font-style: normal;
   font-weight: normal;
   src: local('SourceCodePro-Regular'),
-  	   url(?resource=webfonts/SourceCodePro-Regular.woff) format('woff');
+       url(?resource=webfonts/SourceCodePro-Regular.woff) format('woff');
 }
 @font-face {
   font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: bold;
   src: local('SourceCodePro-Bold'),
-  	   url(?resource=webfonts/SourceCodePro-Bold.woff) format('woff');
+       url(?resource=webfonts/SourceCodePro-Bold.woff) format('woff');
 }
