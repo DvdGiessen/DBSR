@@ -1,0 +1,26 @@
+{
+  "name": "dbsr",
+  "description": "Database Search & Replace",
+  "author": "Daniël van de Giessen",
+  "license": "GPL-3.0",
+  "homepage": "https://github.com/DvdGiessen/DBSR#readme",
+  "bugs": {
+    "url": "https://github.com/DvdGiessen/DBSR/issues"
+  },
+  "keywords": [
+    "DBSR",
+    "database",
+    "search",
+    "replace",
+    "search-replace",
+    "mysql",
+    "sql"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DvdGiessen/DBSR.git"
+  },
+  "devDependencies": {
+    "uglify-js": "*"
+  }
+}

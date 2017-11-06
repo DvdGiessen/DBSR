@@ -8,12 +8,16 @@
  * to do so. ;)
  */
 
+// Directories
+$input_directory = 'src';
+$output_directory = 'compiled';
+
 // Minimize output (optimalisations like whitespace removal and file combination, reducing total size and increasing speed)
-$minimize_php     = TRUE;
-$minimize_html     = TRUE;
-$minimize_js     = TRUE;
-$minimize_css     = TRUE;
-$minimize_svg     = TRUE;
+$minimize_php  = TRUE;
+$minimize_html = TRUE;
+$minimize_js   = TRUE;
+$minimize_css  = TRUE;
+$minimize_svg  = TRUE;
 
 // Compress entire PHP output file using a compression algorithm
 // Valid options: none, gzip
@@ -43,7 +47,7 @@ error_reporting(0);
 // Uses UglifyJS... if you don't have it, get the latest version from GitHub <https://github.com/mishoo/UglifyJS2>
 function jsCompiler($code) {
     // Start uglifyjs
-    $process = proc_open('uglifyjs -c unsafe=true', array(
+    $process = proc_open('.' . DIRECTORY_SEPARATOR . 'node_modules' . DIRECTORY_SEPARATOR . '.bin' . DIRECTORY_SEPARATOR . 'uglifyjs -c unsafe=true -b beautify=false,ascii_only=true', array(
         0 => array('pipe', 'r'),
         1 => array('pipe', 'w'),
         2 => array('pipe', 'w'),
@@ -173,7 +177,7 @@ function add_resources($dir, $prefix, &$source) {
         $compression_winnings += $resource_content_length - strlen($resource_content);
 
         // Write to source
-        if(preg_match('/[^\w\s[:print:]]/', $resource_content)) {
+        if(preg_match('/[^\w\s[:print:]]/', $resource_content, $matches)) {
             $resource_content = 'base64: ' . base64_encode($resource_content);
         } else {
             $resource_content = 'normal:' . $resource_content;
@@ -250,9 +254,10 @@ foreach($compile_sets as $name => $files) {
     $compression_winnings = 0;
     $source = '<?php';
     foreach($files as $key => $file) {
-        if(is_readable($file) && is_dir($file)) {
+        $file_path = $input_directory . DIRECTORY_SEPARATOR . $file;
+        if(is_readable($file_path) && is_dir($file_path)) {
             $source .= ' class ' . $file . ' { ';
-            $compression_winnings += add_resources($file, '', $source);
+            $compression_winnings += add_resources($file_path, '', $source);
             $source .= '
                 /**
                  * Get the resource file content.
@@ -279,8 +284,8 @@ foreach($compile_sets as $name => $files) {
                     }
                 }';
             $source .= '}';
-        } elseif(is_readable($file) && is_file($file)) {
-            $source .= substr(file_get_contents($file), 5);
+        } elseif(is_readable($file_path) && is_file($file_path)) {
+            $source .= substr(file_get_contents($file_path), 5);
         } else {
             exit('Unable to load file ' . $file);
         }
@@ -383,10 +388,10 @@ foreach($compile_sets as $name => $files) {
             ' */' . "\n" .
             $compressed;
 
-        file_put_contents('compiled' . DIRECTORY_SEPARATOR . $name, $compressed);
+        file_put_contents($output_directory . DIRECTORY_SEPARATOR . $name, $compressed);
         echo 'Compiled file ', $name, ', total size is ' . normalizeFileSize(strlen($compressed)) . ' (including ', round(100 * (1 - (strlen($compressed) / (strlen($source) + $compression_winnings))), 1), '% reduction by compression)' . (PHP_SAPI == 'cli' ? '' : '<br />') . PHP_EOL;
     } else {
-        file_put_contents('compiled' . DIRECTORY_SEPARATOR . $name, $source);
+        file_put_contents($output_directory . DIRECTORY_SEPARATOR . $name, $source);
         echo 'Compiled file ', $name, ', total size is ' . normalizeFileSize(strlen($source)) . (PHP_SAPI == 'cli' ? '' : '<br />') . PHP_EOL;
     }
 }

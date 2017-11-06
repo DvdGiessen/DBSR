@@ -1,21 +1,45 @@
 {
     "name": "dvdgiessen/dbsr",
     "description": "Database Search & Replace",
-    "keywords": ["DBSR", "database", "search", "replace"],
-    "homepage": "https://github.com/DvdGiessen/DBSR",
+    "keywords": ["DBSR", "database", "search", "replace", "search-replace", "mysql", "sql"],
+    "homepage": "https://github.com/DvdGiessen/DBSR#readme",
     "license": "GPL-3.0",
     "authors": [{
-            "name": "DvdGiessen",
-            "email": "dbsr@dvdgiessen.nl",
-            "homepage": "http://www.dvdgiessen.nl/"
+        "name": "DvdGiessen",
+        "email": "dbsr@dvdgiessen.nl",
+        "homepage": "http://www.dvdgiessen.nl/"
     }],
     "support": {
         "issues": "https://github.com/DvdGiessen/DBSR/issues",
         "source": "https://github.com/DvdGiessen/DBSR"
     },
+    "bin": [
+        "compiled/DBSearchReplace-CLI.php"
+    ],
     "require": {
-        "php": ">=5.3"
+        "php": "^5.3 || ^7.0",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*"
     },
-    "bin": ["compiled/DBSearchReplace-CLI.php"],
-    "minimum-stability": "dev"
+    "require-dev": {
+        "eloquent/composer-npm-bridge": "4.0",
+        "friendsofphp/php-cs-fixer": "^2.8",
+        "phpunit/dbunit": "^2.0",
+        "phpunit/phpunit": "^5.7",
+        "squizlabs/php_codesniffer": "^3.1",
+        "vimeo/psalm": "^0.3.63"
+    },
+    "scripts": {
+        "test": "phpunit",
+        "lint": [
+            "php-cs-fixer fix --dry-run --diff",
+            "phpcs --standard=PSR2 src test web",
+            "psalm"
+        ],
+        "fix": [
+            "php-cs-fixer fix",
+            "phpcbf --standard=PSR2 src test web"
+        ],
+        "compile": "php -f compile.php"
+    }
 }

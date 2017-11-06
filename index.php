@@ -12,11 +12,11 @@ error_reporting(E_ALL);
 define('DEBUG', TRUE);
 
 // Load up bootstrapper so initialization can be run
-require_once 'Bootstrapper.php';
+require_once 'src/Bootstrapper.php';
 
 // For development: Fast switch between CLI and GUI
 if(PHP_SAPI == 'cli' || isset($_GET['args'])) {
-    require_once 'DBSR_CLI_Bootstrapper.php';
+    require_once 'src/DBSR_CLI_Bootstrapper.php';
 } else {
-    require_once 'DBSR_GUI_Bootstrapper.php';
+    require_once 'src/DBSR_GUI_Bootstrapper.php';
 }

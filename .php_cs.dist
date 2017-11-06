@@ -1,0 +1,42 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->append([
+        __DIR__ . '/Bootstrapper.php',
+        __DIR__ . '/DBSR_CLI_Bootstrapper.php',
+        __DIR__ . '/DBSR_CLI.php',
+        __DIR__ . '/DBSR_GUI_Bootstrapper.php',
+        __DIR__ . '/DBSR_GUI.php',
+        __DIR__ . '/DBSR.php',
+    ])
+    ->in([
+        __DIR__ . '/test',
+    ])
+;
+
+return PhpCsFixer\Config::create()
+    ->setRiskyAllowed(true)
+    ->setRules([
+        // Symfony includes PSR-2 and PSR-1
+        '@Symfony:risky' => true,
+
+        // Override some Symfony rules we don't like
+        'concat_space' => ['spacing' => 'one'],
+        'declare_equal_normalize' => ['space' => 'single'],
+        'blank_line_after_opening_tag' => false,
+        'linebreak_after_opening_tag' => true,
+        'single_blank_line_before_namespace' => false,
+        'no_blank_lines_before_namespace' => true,
+
+        // Extra rules
+        'no_superfluous_elseif' => true,
+        'no_unneeded_curly_braces' => true,
+        'no_unneeded_final_method' => true,
+        'no_unreachable_default_argument_value' => true,
+        'no_useless_return' => true,
+        'ordered_imports' => true,
+        'semicolon_after_instruction' => true,
+        'single_line_comment_style' => true,
+    ])
+    ->setFinder($finder)
+;

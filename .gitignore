@@ -1,12 +1,17 @@
-# Exclude common IDE files
-.project
-.buildpath
-.settings/
-.externalToolBuilders/
-.komodoproject
-.vscode/
-
-# Exclude common OS-files
-Thumbs.db
-__MACOSX
-.DS_Store
+/.externalToolBuilders/
+/.idea/
+/.settings/
+/.vscode/
+/coverage/
+/node_modules/
+/vendor/
+/.buildpath
+/.checkstyle
+/.php_cs.cache
+/.project
+/auth.json
+/phpunit.phar
+/phpunit-*.phar
+/phpunit-report.coverage.xml
+/phpunit-report.tests.xml
+/coverage.xml

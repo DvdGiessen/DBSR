@@ -15,6 +15,9 @@
  * along with DBSR.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Use Composer auto-loader for dependencies
+require_once realpath(dirname(__DIR__)) . '/vendor/autoload.php';
+
 // We need DBSR before we can test it!
 require_once 'DBSR.php';
 
