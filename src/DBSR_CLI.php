@@ -3,13 +3,6 @@
  * DBSR_CLI provides a CLI interface for the DBSR class.
  */
 class DBSR_CLI {
-    /* Constants */
-    /**
-     * Version string indicating the DBSR CLI version.
-     * @var string
-     */
-    const VERSION = '2.0.3';
-
     /* Static properties */
     /**
      * Options available as parameters and their default values.
@@ -145,7 +138,7 @@ class DBSR_CLI {
      * Prints the version string.
      */
     public static function printVersion() {
-        echo 'DBSR CLI v', static::VERSION, ', based on DBSR v' . DBSR::VERSION . ', running on PHP ', PHP_VERSION, ' (', PHP_SAPI, '), ', PHP_OS, '.', "\n";
+        echo 'DBSR ' . DBSR::VERSION . ' CLI, running on PHP ', PHP_VERSION, ' (', PHP_SAPI, '), ', PHP_OS, '.', "\n";
     }
 
     /**

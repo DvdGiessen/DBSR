@@ -8,7 +8,7 @@ class DBSR {
      * Version string indicating the DBSR version.
      * @var string
      */
-    const VERSION = '2.1.2';
+    const VERSION = '2.1.3';
 
     /**
      * Option: use case-insensitive search and replace.

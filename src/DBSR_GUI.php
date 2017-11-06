@@ -5,12 +5,6 @@
 class DBSR_GUI {
     /* Constants */
     /**
-     * Version string indicating the DBSR GUI version.
-     * @var string
-     */
-    const VERSION = '2.0.6';
-
-    /**
      * Formatting option: formats as a plain, HTML-safe, string.
      */
     const FORMAT_STRING_PLAINHTML = 0;

@@ -54,7 +54,6 @@ if(isset($_GET['ajax'])) {
         exit(json_encode(array(
             'data' => DBSR_GUI::detectConfig() + array(
                 'DBSR_version' => DBSR::VERSION,
-                'DBSR_GUI_version' => DBSR_GUI::VERSION,
             ),
             'selfdestruct' => class_exists('DBSR_GUI_Resources', FALSE) && realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME']) && is_writable(__FILE__),
         )));
