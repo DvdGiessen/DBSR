@@ -85,6 +85,9 @@ jQuery(function($) {
         }
     });
 
+    // Directly trigger resize event once to adjust for body with changes caused by inital liteAccordion activation
+    $(window).trigger('resize');
+
     // Remove default styling, use our own one from the CSS instead
     $.blockUI.defaults.css = {};
     $.blockUI.defaults.overlayCSS = {};
