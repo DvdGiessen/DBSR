@@ -62,7 +62,7 @@ function jsCompiler($code) {
         fclose($pipes[0]);
 
         // Read the compressed output from STDOUT
-        $code_compressed = stream_get_contents($pipes[1]);
+        $code_compressed = trim(stream_get_contents($pipes[1]));
 
         // Close STDOUT to prevent deadlocks
         fclose($pipes[1]);
@@ -178,7 +178,7 @@ function add_resources($dir, $prefix, &$source) {
 
         // Write to source
         if(preg_match('/[^\w\s[:print:]]/', $resource_content, $matches)) {
-            $resource_content = 'base64: ' . base64_encode($resource_content);
+            $resource_content = 'base64:' . base64_encode($resource_content);
         } else {
             $resource_content = 'normal:' . $resource_content;
         }
@@ -230,7 +230,7 @@ function add_resources($dir, $prefix, &$source) {
             $compression_winnings += $resource_content_length - strlen($resource_content);
 
             if(preg_match('/[^\w\s[:print:]]/', $resource_content)) {
-                $resource_content = 'base64: ' . base64_encode($resource_content);
+                $resource_content = 'base64:' . base64_encode($resource_content);
             } else {
                 $resource_content = 'normal:' . $resource_content;
             }
