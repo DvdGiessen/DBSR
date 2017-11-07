@@ -3,3 +3,8 @@
 
 # Force Unix style line endings
 * text eol=lf
+
+# Explicitly mark binary types (to prevent unwanted line conversion)
+*.ico binary
+*.png binary
+*.woff binary
