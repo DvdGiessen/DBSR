@@ -1,15 +1,8 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->append([
-        __DIR__ . '/Bootstrapper.php',
-        __DIR__ . '/DBSR_CLI_Bootstrapper.php',
-        __DIR__ . '/DBSR_CLI.php',
-        __DIR__ . '/DBSR_GUI_Bootstrapper.php',
-        __DIR__ . '/DBSR_GUI.php',
-        __DIR__ . '/DBSR.php',
-    ])
     ->in([
+        __DIR__ . '/src',
         __DIR__ . '/test',
     ])
 ;

@@ -33,12 +33,12 @@
         "test": "phpunit",
         "lint": [
             "php-cs-fixer fix --dry-run --diff",
-            "phpcs --standard=PSR2 src test web",
+            "phpcs --standard=PSR2 src test",
             "psalm"
         ],
         "fix": [
             "php-cs-fixer fix",
-            "phpcbf --standard=PSR2 src test web"
+            "phpcbf --standard=PSR2 src test"
         ],
         "compile": "php -f compile.php"
     }

@@ -6,12 +6,7 @@
     totallyTyped="false"
 >
     <projectFiles>
-        <file name="Bootstrapper" />
-        <file name="DBSR_CLI_Bootstrapper.php" />
-        <file name="DBSR_CLI.php" />
-        <file name="DBSR_GUI_Bootstrapper.php" />
-        <file name="DBSR_GUI.php" />
-        <file name="DBSR.php" />
+        <directory name="src" />
         <directory name="test" />
     </projectFiles>
 

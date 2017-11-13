@@ -21,6 +21,6 @@
     "url": "git+https://github.com/DvdGiessen/DBSR.git"
   },
   "devDependencies": {
-    "uglify-js": "*"
+    "uglify-js": "^3.1.9"
   }
 }
