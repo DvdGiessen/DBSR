@@ -2,8 +2,9 @@
 /**
  * DBSR_GUI provides functionality for the GUI interface for the DBSR class.
  */
-class DBSR_GUI {
-    /* Constants */
+class DBSR_GUI
+{
+    // Constants
     /**
      * Formatting option: formats as a plain, HTML-safe, string.
      */
@@ -19,7 +20,7 @@ class DBSR_GUI {
      */
     const FORMAT_STRING_HEXEDITOR = 2;
 
-    /* Properties */
+    // Properties
     /**
      * Options set during for this DBSR_GUI instance.
      * @var array
@@ -32,7 +33,7 @@ class DBSR_GUI {
      */
     protected $maxStep = 0;
 
-    /* Static methods */
+    // Static methods
     /**
      * Formats a string according to the given formatting style.
      *
@@ -40,21 +41,22 @@ class DBSR_GUI {
      * @param     int     $format     One of the DBSR_GUI::FORMAT_STRING_* constants.
      * @return     string                 The formatted string.
      */
-    public static function formatString($string, $format = self::FORMAT_STRING_PLAINHTML) {
+    public static function formatString($string, $format = self::FORMAT_STRING_PLAINHTML)
+    {
         // Check input
-        if(!is_string($string)) {
-            return FALSE;
+        if (!is_string($string)) {
+            return false;
         }
 
         // Result string
         $result = '';
 
         // Switch format
-        switch($format) {
+        switch ($format) {
             case static::FORMAT_STRING_PHPESCAPE:
                 $result .= '"';
-                for($i = 0; $i < strlen($string); $i++) {
-                    switch($string[$i]) {
+                for ($i = 0; $i < strlen($string); $i++) {
+                    switch ($string[$i]) {
                         case "\n":
                             $result .= '\\n';
                             break;
@@ -81,7 +83,7 @@ class DBSR_GUI {
                             break;
                         default:
                             $ord = ord($string[$i]);
-                            if($ord >= 32 && $ord < 127) {
+                            if ($ord >= 32 && $ord < 127) {
                                 $result .= htmlspecialchars($string[$i]);
                             } else {
                                 $result .= '\\x' . str_pad(strtoupper(dechex($ord)), 2, '0', STR_PAD_LEFT);
@@ -99,8 +101,8 @@ class DBSR_GUI {
                 // Calculate strst padding string
                 static $from = '';
                 static $to = '';
-                if($from === '') {
-                    for($i = 0; $i <= 0xFF; $i++) {
+                if ($from === '') {
+                    for ($i = 0; $i <= 0xFF; $i++) {
                         $from .= chr($i);
                         $to .= ($i >= 0x20 && $i <= 0x7E) ? chr($i) : $pad;
                     }
@@ -114,7 +116,7 @@ class DBSR_GUI {
 
                 $offset = 0;
                 $leftpad = strlen((string) strlen($string));
-                foreach($hex as $i => $line) {
+                foreach ($hex as $i => $line) {
                     $result .= '<b>';
                     $result .= str_pad($offset, $leftpad, ' ', STR_PAD_LEFT);
                     $result .= '</b> : ';
@@ -153,7 +155,8 @@ class DBSR_GUI {
      * @param     string     $str2     The seconds string to be compared.
      * @return     integer         The levenshtein distance between the two strings.
      */
-    public static function levenshtein($str1, $str2) {
+    public static function levenshtein($str1, $str2)
+    {
         // Save string lengths
         $len1 = strlen($str1);
         $len2 = strlen($str2);
@@ -161,14 +164,14 @@ class DBSR_GUI {
         // Strip common prefix
         $i = 0;
         do {
-            if(substr($str1, $i, 1) != substr($str2, $i, 1)) {
+            if (substr($str1, $i, 1) != substr($str2, $i, 1)) {
                 break;
             }
             $i++;
             $len1--;
             $len2--;
-        } while($len1 > 0 && $len2 > 0);
-        if($i > 0) {
+        } while ($len1 > 0 && $len2 > 0);
+        if ($i > 0) {
             $str1 = substr($str1, $i);
             $str2 = substr($str2, $i);
         }
@@ -176,14 +179,14 @@ class DBSR_GUI {
         // Strip common suffix
         $i = 0;
         do {
-            if(substr($str1, $len1 - 1, 1) != substr($str2, $len2-1, 1)) {
+            if (substr($str1, $len1 - 1, 1) != substr($str2, $len2-1, 1)) {
                 break;
             }
             $i++;
             $len1--;
             $len2--;
-        } while($len1 > 0 && $len2 > 0);
-        if($i > 0) {
+        } while ($len1 > 0 && $len2 > 0);
+        if ($i > 0) {
             $str1 = substr($str1, 0, $len1);
             $str2 = substr($str2, 0, $len2);
         }
@@ -235,26 +238,27 @@ class DBSR_GUI {
      * @param     string     $resource     The filename of the resource.
      * @return     mixed                 The content of the file as string, or FALSE if unsuccessful.
      */
-    public static function getResource($resource) {
+    public static function getResource($resource)
+    {
         // Check if a compiled version is available
-        if(class_exists('DBSR_GUI_Resources', FALSE)) {
+        if (class_exists('DBSR_GUI_Resources', false)) {
             return DBSR_GUI_Resources::getResource($resource);
         }
 
         // No directory traversing
-        if(preg_match('/\\.\\.[\\/\\\\]/', $resource)) {
-            return FALSE;
+        if (preg_match('/\\.\\.[\\/\\\\]/', $resource)) {
+            return false;
         }
 
         // Correct resource path separators
-        $resource = str_replace('/', DIRECTORY_SEPARATOR, $resource);
+        $resource = str_replace('/', \DIRECTORY_SEPARATOR, $resource);
 
         // Add path to filename
-        $resource = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'DBSR_GUI_Resources' . DIRECTORY_SEPARATOR . $resource;
+        $resource = __DIR__ . \DIRECTORY_SEPARATOR . 'DBSR_GUI_Resources' . \DIRECTORY_SEPARATOR . $resource;
 
         // Does the file exists
-        if(!is_readable($resource) || !is_file($resource)) {
-            return FALSE;
+        if (!is_readable($resource) || !is_file($resource)) {
+            return false;
         }
 
         // Return the content
@@ -273,24 +277,25 @@ class DBSR_GUI {
      *
      * @throws PDOException
      */
-    public static function getPDO($db_host = NULL, $db_port = NULL, $db_user = NULL, $db_pass = NULL, $db_name = NULL, $db_char = NULL) {
+    public static function getPDO($db_host = null, $db_port = null, $db_user = null, $db_pass = null, $db_name = null, $db_char = null)
+    {
         // Prepare the DSN and PDO options array
         $pdo_options = array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         );
 
         $dsn = 'mysql:';
-        if(!empty($db_host)) {
+        if (!empty($db_host)) {
             $dsn .= 'host=' . $db_host;
-            if(!empty($db_port)) {
+            if (!empty($db_port)) {
                 $dsn .= ':' . $db_port;
             }
             $dsn .= ';';
         }
-        if(!empty($db_name)) {
-            $dsn .= 'dbname=' . $db_name. ';';
+        if (!empty($db_name)) {
+            $dsn .= 'dbname=' . $db_name . ';';
         }
-        if(!empty($db_char)) {
+        if (!empty($db_char)) {
             $pdo_options[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES ' . $db_char;
             $dsn .= 'charset=' . $db_char . ';';
         }
@@ -304,7 +309,8 @@ class DBSR_GUI {
      *
      * @return array All values detected from configuration files.
      */
-    public static function detectConfig() {
+    public static function detectConfig()
+    {
         // Variables to retrieve
         $variables = array(
             'db_host' => 'DB_HOST',
@@ -319,31 +325,31 @@ class DBSR_GUI {
         $configfiles = array(
             'database.conf.php',
             'wp-config.php',
-            '..' . DIRECTORY_SEPARATOR . 'database.conf.php',
-            '..' . DIRECTORY_SEPARATOR . 'wp-config.php',
+            '..' . \DIRECTORY_SEPARATOR . 'database.conf.php',
+            '..' . \DIRECTORY_SEPARATOR . 'wp-config.php',
         );
 
         // Result array
         $detected = array();
 
         // For each configfile
-        foreach($configfiles as $configfile) {
-            if(count($variables) > 0) {
+        foreach ($configfiles as $configfile) {
+            if (count($variables) > 0) {
                 // Load it
-                if(file_exists($configfile) && ($config = file_get_contents($configfile))) {
+                if (file_exists($configfile) && ($config = file_get_contents($configfile))) {
                     // By default, the entire file is the block
                     $config_blocks = array($config);
 
                     // Try to determine if a specific block contains our needs
                     $regex_block = '/(?:[iI][fF]\s*\(\s*[sS][tT][rR][iI]?(?:[sS][tT][rR]|[pP][oO][sS])\s*\(\s*\$_SERVER\s*\[\s*[\'"]SERVER_NAME[\'"]\s*\]\s*,\s*[\'"]((?:[^\'"]|\\\\\'|\\\\")*)[\'"]\s*\)[^\)]*\)|[eE][lL][sS][eE])\s*(\{(?:[^\{\}]*|\2)*\})/ms';
-                    if(preg_match_all($regex_block, $config, $matches, PREG_SET_ORDER)) {
+                    if (preg_match_all($regex_block, $config, $matches, PREG_SET_ORDER)) {
                         // For each subset
-                        foreach($matches as &$match) {
+                        foreach ($matches as &$match) {
                             // Discard the complete match
                             array_shift($match);
 
                             // Check if the detected name matches agains the current server name
-                            if($match[0] == '' || stripos($_SERVER['SERVER_NAME'], $match[0]) !== FALSE) {
+                            if ($match[0] == '' || stripos($_SERVER['SERVER_NAME'], $match[0]) !== false) {
                                 // Add this block as prefered block
                                 array_unshift($config_blocks, $match[1]);
                                 break;
@@ -352,20 +358,24 @@ class DBSR_GUI {
                     }
 
                     // Loop through each block
-                    foreach($config_blocks as $config_block) if(count($variables) > 0) {
-                        // Search for each variable and unset it if found
-                        foreach($variables as $varname => $variable) if(count($variables) > 0) {
-                            // Is this a define or a simple variable?
-                            if($variable[0] == '$') {
-                                $regex_variable = '/' . preg_quote($variable) . '\s*=\s*[\'"](([^\'"]|\\\\\'|\\\\")*)[\'"]\s*;/';
-                            } else {
-                                $regex_variable = '/[dD][eE][fF][iI][nN][eE]\s*\(\s*[\'"]' . preg_quote($variable) . '[\'"]\s*,\s*[\'"](([^\'"]|\\\\\'|\\\\")*)[\'"]\s*\)\s*;/';
-                            }
+                    foreach ($config_blocks as $config_block) {
+                        if (count($variables) > 0) {
+                                                // Search for each variable and unset it if found
+                            foreach ($variables as $varname => $variable) {
+                                if (count($variables) > 0) {
+                                                                // Is this a define or a simple variable?
+                                    if ($variable[0] == '$') {
+                                        $regex_variable = '/' . preg_quote($variable) . '\s*=\s*[\'"](([^\'"]|\\\\\'|\\\\")*)[\'"]\s*;/';
+                                    } else {
+                                        $regex_variable = '/[dD][eE][fF][iI][nN][eE]\s*\(\s*[\'"]' . preg_quote($variable) . '[\'"]\s*,\s*[\'"](([^\'"]|\\\\\'|\\\\")*)[\'"]\s*\)\s*;/';
+                                    }
 
-                            // Find the variable
-                            if(preg_match($regex_variable, $config_block, $matches)) {
-                                $detected[$varname] = $matches[1];
-                                unset($variables[$varname]);
+                                // Find the variable
+                                    if (preg_match($regex_variable, $config_block, $matches)) {
+                                        $detected[$varname] = $matches[1];
+                                        unset($variables[$varname]);
+                                    }
+                                }
                             }
                         }
                     }
@@ -374,12 +384,12 @@ class DBSR_GUI {
         }
 
         // Special case: extract the port number from the hostname
-        if(isset($detected['db_host']) && preg_match('/^(.*):(\d+)$/', $detected['db_host'], $matches)) {
+        if (isset($detected['db_host']) && preg_match('/^(.*):(\d+)$/', $detected['db_host'], $matches)) {
             $detected['db_host'] = $matches[1];
             $detected['db_port'] = $matches[2];
         }
-        if(isset($detected['db_host']) && !isset($detected['db_port'])) {
-            $detected['db_port'] = NULL;
+        if (isset($detected['db_host']) && !isset($detected['db_port'])) {
+            $detected['db_port'] = null;
         }
 
         // Return the results
@@ -394,27 +404,28 @@ class DBSR_GUI {
      * @param     array     $arguments     Other arguments currently filled in the form.
      * @return     array                 The hints, in order of likelyhood.
      */
-    public static function autoComplete($id, $term, $arguments) {
-        switch($id) {
+    public static function autoComplete($id, $term, $arguments)
+    {
+        switch ($id) {
             case 'db_name':
                 try {
                     // Check if we can connect to the database with the given arguments
-                    $pdo = static::getPDO(@$arguments['db_host'], @$arguments['db_port'], @$arguments['db_user'], @$arguments['db_pass'], NULL, NULL);
+                    $pdo = static::getPDO(@$arguments['db_host'], @$arguments['db_port'], @$arguments['db_user'], @$arguments['db_pass'], null, null);
 
                     // Fetch a list of databases
                     $result = $pdo->query('SHOW DATABASES;', PDO::FETCH_COLUMN, 0);
 
                     // Filter matching databases
                     $databases = array();
-                    foreach($result as $r) {
-                        if(strtolower(substr($r, 0, strlen($term))) == strtolower($term)) {
+                    foreach ($result as $r) {
+                        if (strtolower(substr($r, 0, strlen($term))) == strtolower($term)) {
                             $databases[] = $r;
                         }
                     }
 
                     // Return result
                     return $databases;
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     // Error: return nothing
                     return array();
                 }
@@ -423,22 +434,22 @@ class DBSR_GUI {
             case 'db_char':
                 try {
                     // Check if we can connect to the database with the given arguments
-                    $pdo = static::getPDO(@$arguments['db_host'], @$arguments['db_port'], @$arguments['db_user'], @$arguments['db_pass'], NULL, NULL);
+                    $pdo = static::getPDO(@$arguments['db_host'], @$arguments['db_port'], @$arguments['db_user'], @$arguments['db_pass'], null, null);
 
                     // Fetch a list of databases
                     $result = $pdo->query('SHOW CHARACTER SET;', PDO::FETCH_COLUMN, 0);
 
                     // Filter matching databases
                     $charsets = array();
-                    foreach($result as $r) {
-                        if(strtolower(substr($r, 0, strlen($term))) == strtolower($term)) {
+                    foreach ($result as $r) {
+                        if (strtolower(substr($r, 0, strlen($term))) == strtolower($term)) {
                             $charsets[] = $r;
                         }
                     }
 
                     // Return result
                     return $charsets;
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     // Error: return nothing
                     return array();
                 }
@@ -450,11 +461,12 @@ class DBSR_GUI {
         }
     }
 
-    /* Methods */
+    // Methods
     /**
      * Constructor: resets the step for every new instance.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->resetStep();
     }
 
@@ -466,32 +478,33 @@ class DBSR_GUI {
      *
      * @return     array                     The response to send to the GUI.
      */
-    public function completeStep($step, $arguments) {
-        if($step > $this->maxStep + 1) {
+    public function completeStep($step, $arguments)
+    {
+        if ($step > $this->maxStep + 1) {
             return array(
-                'valid' => FALSE,
+                'valid' => false,
                 'error' => 'First complete step ' . ($this->maxStep + 1) . '!'
             );
         }
 
-        switch($step) {
+        switch ($step) {
             case 1:
                 // Validate the database connection information
-                if(!isset($arguments['db_host']) || empty($arguments['db_host'])) {
+                if (!isset($arguments['db_host']) || empty($arguments['db_host'])) {
                     return array(
-                        'valid' => FALSE,
+                        'valid' => false,
                         'error' => 'Please enter a hostname!',
                     );
                 }
-                if(!isset($arguments['db_name']) || empty($arguments['db_name'])) {
+                if (!isset($arguments['db_name']) || empty($arguments['db_name'])) {
                     return array(
-                        'valid' => FALSE,
+                        'valid' => false,
                         'error' => 'Please enter a database name!',
                     );
                 }
-                if(!isset($arguments['db_char']) || empty($arguments['db_char'])) {
+                if (!isset($arguments['db_char']) || empty($arguments['db_char'])) {
                     return array(
-                        'valid' => FALSE,
+                        'valid' => false,
                         'error' => 'Please enter a character set!',
                     );
                 }
@@ -500,9 +513,9 @@ class DBSR_GUI {
                 try {
                     $pdo = static::getPDO(@$arguments['db_host'], @$arguments['db_port'], @$arguments['db_user'], @$arguments['db_pass'], @$arguments['db_name'], @$arguments['db_char']);
                     $pdo->query('SHOW TABLES;');
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     return array(
-                        'valid' => FALSE,
+                        'valid' => false,
                         'error' => $e->getMessage(),
                     );
                 }
@@ -520,7 +533,7 @@ class DBSR_GUI {
 
                 // Return data for the GUI
                 return array(
-                    'valid' => TRUE,
+                    'valid' => true,
                     'data' => array(
                         'db_host' => @$arguments['db_host'],
                         'db_port' => @$arguments['db_port'],
@@ -533,15 +546,15 @@ class DBSR_GUI {
 
             case 2:
                 // Check the search- and replace-values
-                if(!is_array(@$arguments['search']) || count(@$arguments['search']) == 0) {
+                if (!is_array(@$arguments['search']) || count(@$arguments['search']) == 0) {
                     return array(
-                        'valid' => FALSE,
+                        'valid' => false,
                         'error' => 'Missing search values!',
                     );
                 }
-                if(!is_array(@$arguments['replace']) || count(@$arguments['replace']) == 0 || count(@$arguments['search']) != count(@$arguments['replace'])) {
+                if (!is_array(@$arguments['replace']) || count(@$arguments['replace']) == 0 || count(@$arguments['search']) != count(@$arguments['replace'])) {
                     return array(
-                        'valid' => FALSE,
+                        'valid' => false,
                         'error' => 'Missing replace values!',
                     );
                 }
@@ -552,22 +565,22 @@ class DBSR_GUI {
 
                 // Parse escaped values
                 $escapedvalues = isset($arguments['escapedvalues']) && strtolower($arguments['escapedvalues']) == 'on';
-                if($escapedvalues) {
-                    for($i = 0; $i < count($arguments['search']); $i++) {
+                if ($escapedvalues) {
+                    for ($i = 0; $i < count($arguments['search']); $i++) {
                         $arguments['search'][$i] = stripcslashes($arguments['search'][$i]);
                         $arguments['replace'][$i] = stripcslashes($arguments['replace'][$i]);
                     }
                 }
 
                 // Remove all identical values
-                for($i = 0; $i < count($arguments['search']); $i++) {
-                    if(empty($arguments['search'][$i])) {
+                for ($i = 0; $i < count($arguments['search']); $i++) {
+                    if (empty($arguments['search'][$i])) {
                         return array(
-                            'valid' => FALSE,
+                            'valid' => false,
                             'error' => 'Search-value cannot be empty!',
                         );
                     }
-                    if($arguments['search'][$i] === $arguments['replace'][$i]) {
+                    if ($arguments['search'][$i] === $arguments['replace'][$i]) {
                         array_splice($arguments['search'], $i, 1);
                         array_splice($arguments['replace'], $i, 1);
                         $i--;
@@ -575,9 +588,9 @@ class DBSR_GUI {
                 }
 
                 // Check the length again
-                if(count($arguments['search']) == 0) {
+                if (count($arguments['search']) == 0) {
                     return array(
-                        'valid' => FALSE,
+                        'valid' => false,
                         'error' => 'All given search- and replace-values are identical!',
                     );
                 }
@@ -595,13 +608,13 @@ class DBSR_GUI {
 
                 // Return data for the GUI
                 $values = array();
-                foreach(array(
+                foreach (array(
                     'values_raw'         =>     static::FORMAT_STRING_PLAINHTML,
                     'values_escaped'     =>     static::FORMAT_STRING_PHPESCAPE,
                     'values_hex'         =>     static::FORMAT_STRING_HEXEDITOR,
                 ) as $name => $type) {
                     $values[$name] = '';
-                    for($i = 0; $i < count($arguments['search']); $i++) {
+                    for ($i = 0; $i < count($arguments['search']); $i++) {
                         $values[$name] .= '<tr><td><code>';
                         $values[$name] .= static::formatString($arguments['search'][$i], $type);
                         $values[$name] .= '</code></td><td><code>';
@@ -612,14 +625,14 @@ class DBSR_GUI {
 
                 // Determine suggestions
                 $suggestions = $this->getSuggestions();
-                if(count($suggestions) > 0) {
+                if (count($suggestions) > 0) {
                     $values['suggestions'] = '<p>' . implode('</p><p>', $suggestions) . '</p>';
                 } else {
                     $values['suggestions'] = '';
                 }
 
                 return array(
-                    'valid' => TRUE,
+                    'valid' => true,
                     'data' => array(
                         'escapedvalues'         =>     $this->options['escapedvalues'],
                         'dbsr_caseinsensitive'     =>     $this->options['dbsr_caseinsensitive'],
@@ -629,9 +642,9 @@ class DBSR_GUI {
                 );
 
             case 3:
-                if(!isset($arguments['confirmed']) || strtolower($arguments['confirmed']) != 'on') {
+                if (!isset($arguments['confirmed']) || strtolower($arguments['confirmed']) != 'on') {
                     return array(
-                        'valid' => FALSE,
+                        'valid' => false,
                         'error' => 'Please confirm the data stated above is correct!',
                     );
                 }
@@ -659,15 +672,15 @@ class DBSR_GUI {
 
                     // Return the result
                     return array(
-                        'valid' => TRUE,
+                        'valid' => true,
                         'data' => array(
                             'result' => $result,
                         ),
                     );
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     // Return the error
                     return array(
-                        'valid' => TRUE,
+                        'valid' => true,
                         'error' => $e->getMessage(),
                         'errorCode'  => $e->getCode(),
                         'errorFile'  => $e->getFile(),
@@ -678,7 +691,7 @@ class DBSR_GUI {
 
             default:
                 return array(
-                    'valid' => FALSE,
+                    'valid' => false,
                     'error' => 'Unknown step!',
                 );
         }
@@ -687,14 +700,16 @@ class DBSR_GUI {
     /**
      * Resets the maximum step.
      */
-    public function resetStep() {
+    public function resetStep()
+    {
         $this->maxStep = 0;
     }
 
     /**
      * Provides simple suggestions for common mistakes based on the search- and replace-values.
      */
-    protected function getSuggestions() {
+    protected function getSuggestions()
+    {
         // Array with all our messages
         $messages = array();
 
@@ -709,70 +724,70 @@ class DBSR_GUI {
         $domain_regex = '/^https?:\\/\\/([a-z0-9](?:[-a-z0-9]*[a-z0-9])?(?:\\.[a-z0-9](?:[-a-z0-9]*[a-z0-9])?)*)\\/?$/iS';
 
         // Switches to prevent double messages
-        $domain = FALSE;
-        $specialchars = FALSE;
-        $newlines = FALSE;
+        $domain = false;
+        $specialchars = false;
+        $newlines = false;
 
         // Get some of the server info to use a spelling probes
         $spelling_probes = array(
             $_SERVER['SERVER_NAME'],     // current server name
-            dirname(__FILE__),             // current directory
+            __DIR__,             // current directory
         );
 
         // Find WP siteurl
         try {
             $result = $pdo->query('SELECT `option_value` FROM `' . $wp_prefix . 'options` WHERE `option_name` = \'siteurl\'', PDO::FETCH_COLUMN, 0)->fetch();
-            if(!empty($result)) {
+            if (!empty($result)) {
                 // Save the domain name
                 $result = preg_replace($domain_regex, '$1', $result);
-                if(!in_array($result, $spelling_probes)) {
+                if (!in_array($result, $spelling_probes)) {
                     $spelling_probes[] = $result;
                 }
 
                 // WWW-less domain name
                 $result = preg_replace('/^www\\.(.+)$/i', '$1', $result);
-                if(!in_array($result, $spelling_probes)) {
+                if (!in_array($result, $spelling_probes)) {
                     $spelling_probes[] = $result;
                 }
             }
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             // Ignore exceptions when retrieving probes
         }
 
         // Find WP path
         try {
             $result = $pdo->query('SELECT `option_value` FROM `' . $wp_prefix . 'options` WHERE `option_name` = \'recently_edited\'', PDO::FETCH_COLUMN, 0)->fetch();
-            if(!empty($result)) {
+            if (!empty($result)) {
                 $result = preg_replace('/^(\\/.*)\\/wp-content\\/.*$/i', '$1', preg_replace('/^.*s:\d+:"([^"]+)";.*$/i', '$1', $result));
-                if(strpos($result, '"') === FALSE && !in_array($result, $spelling_probes)) {
+                if (strpos($result, '"') === false && !in_array($result, $spelling_probes)) {
                     $spelling_probes[] = $result;
                 }
             }
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             // Ignore exceptions when retrieving probes
         }
 
         // Loop over all values
-        for($i = 0; $i < count($this->options['search']); $i++) {
-            if(!$domain && preg_match($domain_regex, $this->options['search'][$i]) && preg_match($domain_regex, $this->options['replace'][$i])) {
+        for ($i = 0; $i < count($this->options['search']); $i++) {
+            if (!$domain && preg_match($domain_regex, $this->options['search'][$i]) && preg_match($domain_regex, $this->options['replace'][$i])) {
                 // Domain name
-                $domain = TRUE;
+                $domain = true;
                 $messages[] = 'It seems you\'re going to replace a domain name.<br />Be aware that it is recommended to omit any pre- and suffixes (such as <code>http://</code> or a trailing slash) to ensure <b>all</b> occurences of the domain name will be replaced.';
             } else {
                 // Spelling
-                foreach($spelling_probes as $probe) {
-                    if($this->options['dbsr_caseinsensitive']) {
-                        if(strtolower($this->options['search'][$i]) != strtolower($probe) && static::levenshtein(strtolower($this->options['search'][$i]), strtolower($probe)) < 4) {
+                foreach ($spelling_probes as $probe) {
+                    if ($this->options['dbsr_caseinsensitive']) {
+                        if (strtolower($this->options['search'][$i]) != strtolower($probe) && static::levenshtein(strtolower($this->options['search'][$i]), strtolower($probe)) < 4) {
                             $messages[] = 'I suspect you might have made a typo in the ' . ($i + 1) . 'th search-value. Did you mean "<code>' . htmlspecialchars($probe) . '</code>"?';
                         }
-                        if(strtolower($this->options['replace'][$i]) != strtolower($probe) && static::levenshtein(strtolower($this->options['replace'][$i]), strtolower($probe)) < 4) {
+                        if (strtolower($this->options['replace'][$i]) != strtolower($probe) && static::levenshtein(strtolower($this->options['replace'][$i]), strtolower($probe)) < 4) {
                             $messages[] = 'I suspect you might have made a typo in the ' . ($i + 1) . 'th replace-value. Did you mean "<code>' . htmlspecialchars($probe) . '</code>"?';
                         }
                     } else {
-                        if($this->options['search'][$i] != $probe && static::levenshtein($this->options['search'][$i], $probe) < 4) {
+                        if ($this->options['search'][$i] != $probe && static::levenshtein($this->options['search'][$i], $probe) < 4) {
                             $messages[] = 'I suspect you might have made a typo in the ' . ($i + 1) . 'th search-value. Did you mean "<code>' . htmlspecialchars($probe) . '</code>"?';
                         }
-                        if($this->options['replace'][$i] != $probe && static::levenshtein($this->options['replace'][$i], $probe) < 4) {
+                        if ($this->options['replace'][$i] != $probe && static::levenshtein($this->options['replace'][$i], $probe) < 4) {
                             $messages[] = 'I suspect you might have made a typo in the ' . ($i + 1) . 'th replace-value. Did you mean "<code>' . htmlspecialchars($probe) . '</code>"?';
                         }
                     }
@@ -780,30 +795,30 @@ class DBSR_GUI {
             }
 
             // Non-ASCII characters
-            for($j = 0; $j < strlen($this->options['search'][$i]) && !$specialchars; $j++) {
+            for ($j = 0; $j < strlen($this->options['search'][$i]) && !$specialchars; $j++) {
                 $ord = ord($this->options['search'][$i][$j]);
-                if($ord < 9 || ($ord > 10 && $ord < 13) || ($ord > 13 && $ord < 32) || $ord >= 127) {
+                if ($ord < 9 || ($ord > 10 && $ord < 13) || ($ord > 13 && $ord < 32) || $ord >= 127) {
                     $messages[] = 'There are some non-ASCII characters in your search value(s).<br />Be aware that DBSR does not provide any transliteration support, thus leaving character encoding entirely up to your browser and the database. Be sure to set the correct charset, and optionally use the "extended search" option of DBSR.';
-                    $specialchars = TRUE;
+                    $specialchars = true;
                 }
             }
-            for($j = 0; $j < strlen($this->options['replace'][$i]) && !$specialchars; $j++) {
+            for ($j = 0; $j < strlen($this->options['replace'][$i]) && !$specialchars; $j++) {
                 $ord = ord($this->options['replace'][$i][$j]);
-                if($ord < 9 || ($ord > 10 && $ord < 13) || ($ord > 13 && $ord < 32) || $ord >= 127) {
+                if ($ord < 9 || ($ord > 10 && $ord < 13) || ($ord > 13 && $ord < 32) || $ord >= 127) {
                     $messages[] = 'There are some non-ASCII characters in your replace value(s).<br />Be aware that DBSR does not provide any transliteration support, thus leaving character encoding entirely up to your browser and the database. Be sure to set the correct charset, and optionally use the "extended search" option of DBSR.';
-                    $specialchars = TRUE;
+                    $specialchars = true;
                 }
             }
 
             // Newlines
-            if(!$newlines && !$this->options['escapedvalues']) {
-                if(strpos($this->options['search'][$i], "\n") !== FALSE) {
-                    $newlines = TRUE;
-                    $messages[] = 'You\'ve used ' . (strpos($_SESSION['search'][$i], "\r\n") !== FALSE ? 'Windows-style ("<code>\r\n</code>")' : 'Unix-style ("<code>\n</code>")') . ' line endings. If this is not what you want, go back and change it.';
+            if (!$newlines && !$this->options['escapedvalues']) {
+                if (strpos($this->options['search'][$i], "\n") !== false) {
+                    $newlines = true;
+                    $messages[] = 'You\'ve used ' . (strpos($_SESSION['search'][$i], "\r\n") !== false ? 'Windows-style ("<code>\r\n</code>")' : 'Unix-style ("<code>\n</code>")') . ' line endings. If this is not what you want, go back and change it.';
                 }
-                if(!$newlines && strpos($this->options['replace'][$i], "\n") !== FALSE) {
-                    $newlines = TRUE;
-                    $messages[] = 'You\'ve used ' . (strpos($_SESSION['replace'][$i], "\r\n") !== FALSE ? 'Windows-style ("<code>\r\n</code>")' : 'Unix-style ("<code>\n</code>")') . ' line endings. If this is not what you want, go back and change it.';
+                if (!$newlines && strpos($this->options['replace'][$i], "\n") !== false) {
+                    $newlines = true;
+                    $messages[] = 'You\'ve used ' . (strpos($_SESSION['replace'][$i], "\r\n") !== false ? 'Windows-style ("<code>\r\n</code>")' : 'Unix-style ("<code>\n</code>")') . ' line endings. If this is not what you want, go back and change it.';
                 }
             }
         }

@@ -7,10 +7,10 @@
 Bootstrapper::initialize();
 
 // If it seems we're running from a webserver
-if(PHP_SAPI != 'cli' && !empty($_SERVER['REMOTE_ADDR'])) {
+if (\PHP_SAPI != 'cli' && !empty($_SERVER['REMOTE_ADDR'])) {
     // Build a argument array
     $_SERVER['argv'] = array(basename($_SERVER['SCRIPT_FILENAME']));
-    if(isset($_GET['args']) && strlen(trim($_GET['args'])) > 0) {
+    if (isset($_GET['args']) && strlen(trim($_GET['args'])) > 0) {
         $_SERVER['argv'] = array_merge($_SERVER['argv'], explode(' ', trim($_GET['args'])));
     }
 
@@ -18,7 +18,8 @@ if(PHP_SAPI != 'cli' && !empty($_SERVER['REMOTE_ADDR'])) {
     @ini_set('html_errors', 0);
 
     /** Output buffer callback function with a simple CLI webinterface */
-    function DBSR_CLI_output($output) {
+    function DBSR_CLI_output($output)
+    {
         header('Content-Type: text/html; charset=UTF-8');
         return     '<!DOCTYPE html>' . "\n" .
                 '<html lang="en">' . "\n" .

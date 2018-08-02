@@ -16,10 +16,7 @@
  */
 
 // Use Composer auto-loader for dependencies
-require_once realpath(dirname(__DIR__)) . '/vendor/autoload.php';
-
-// We need DBSR before we can test it!
-require_once 'DBSR.php';
+require_once dirname(__DIR__) . \DIRECTORY_SEPARATOR . 'vendor' . \DIRECTORY_SEPARATOR . 'autoload.php';
 
 /**
  * PHPUnit tests for the DBSR class.
@@ -27,66 +24,27 @@ require_once 'DBSR.php';
  * @author Daniël van de Giessen
  * @package DBSR
  */
-class DBSRTest extends PHPUnit_Extensions_Database_TestCase {
-    /**
-     * PDO schema used for connecting to the MySQL server
-     * @var string
-     */
-    const PDO_SCHEMA = 'localhost;dbname=DBSRTest';
-
-    /**
-     * PDO username used for connecting to the MySQL server
-     * @var string
-     */
-    const PDO_USERNAME = NULL;
-
-    /**
-     * PDO password used for connecting to the MySQL server
-     * @var string
-     */
-    const PDO_PASSWORD = NULL;
-
-    /**
-     * The PDO-object representing the database connection.
-     * @var PDO
-     */
-    private $pdo;
-
-    /**
-     * @return PHPUnit_Extensions_Database_DB_IDatabaseConnection
-     */
-    public function getConnection() {
-        $this->pdo = new PDO('mysql:' . self::PDO_SCHEMA . ';charset=utf8', self::PDO_USERNAME, self::PDO_PASSWORD, array(
-            PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
-        ));
-        return $this->createDefaultDBConnection($this->pdo, self::PDO_SCHEMA);
-    }
-
-    /**
-     * @return PHPUnit_Extensions_Database_DataSet_IDataSet
-     */
-    public function getDataSet() {
-        // TODO: create temporary tables using something like the WP testing XML export
-        // https://wpcom-themes.svn.automattic.com/demo/theme-unit-test-data.xml
-    }
-
-    public function testCreateClass() {
+class DBSRTest extends \PHPUnit\Framework\TestCase
+{
+    public function testCreateClass()
+    {
         // Find a non-existing class name
         do {
             $className = 'DBSRTest_RandomClass_' . mt_rand(0, PHP_INT_MAX);
-        } while(class_exists($className, FALSE));
+        } while (class_exists($className, false));
 
         // Run the static method
         DBSR::createClass($className);
 
         // Test existance of previously nonexisting class
-        $this->assertTrue(class_exists($className, FALSE), 'Testing class existance after calling DBSR::createClass()...');
+        $this->assertTrue(class_exists($className, false), 'Testing class existance after calling DBSR::createClass()...');
 
         // Test errorless behaviour when calling with a existing class
         DBSR::createClass('DBSRTest');
     }
 
-    public function testGetPHPType() {
+    public function testGetPHPType()
+    {
         // Test case array
         $testCases = array();
 
@@ -134,18 +92,18 @@ class DBSRTest extends PHPUnit_Extensions_Database_TestCase {
         );
 
         // Generate numeric test cases
-        foreach($baseTestCases as $expected => $tests) {
-            foreach($tests as $type => $argc) {
+        foreach ($baseTestCases as $expected => $tests) {
+            foreach ($tests as $type => $argc) {
                 $testCases[$expected][] = $type;
                 $testCases[$expected][] = strtolower($type);
                 $testCases[$expected][] = ' ' . $type . ' ';
-                if($argc >= 1) {
+                if ($argc >= 1) {
                     $testCases[$expected][] = $type . '(10)';
                     $testCases[$expected][] = strtolower($type) . '(10)';
                     $testCases[$expected][] = ' ' . $type . '(10) ';
                     $testCases[$expected][] = $type . '( 10 )';
                 }
-                if($argc >= 2) {
+                if ($argc >= 2) {
                     $testCases[$expected][] = $type . '(10,5)';
                     $testCases[$expected][] = strtolower($type) . '(10,5)';
                     $testCases[$expected][] = ' ' . $type . '(10,5) ';
@@ -155,11 +113,10 @@ class DBSRTest extends PHPUnit_Extensions_Database_TestCase {
         }
 
         // Run test cases
-        foreach($testCases as $expected => $testCase) {
-            foreach($testCase as $test) {
+        foreach ($testCases as $expected => $testCase) {
+            foreach ($testCase as $test) {
                 $this->assertEquals($expected, DBSR::getPHPType($test), 'MySQL type "' . $test . '" should convert to a PHP ' . $expected);
             }
         }
-
     }
 }
