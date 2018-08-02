@@ -27,6 +27,11 @@ your web server. I do not recommend this. For most users, just downloading the
 GUI version ([DBSearchReplace-GUI.php](https://github.com/DvdGiessen/DBSR/releases))
 and uploading that to your web server is the recommended way to use DBSR.
 
+*Note:* Another thing I see many tutorials recommend is using the `extensive
+search` option. In most cases, if you are just replacing plain text values
+in your WordPress database, you **should not** use this option. It will make
+DBSR extremely slow and is not needed, everything will work fine without it.
+
 ### GUI version
 ![Screenshot of the DBSR GUI](screenshot.png)
 
