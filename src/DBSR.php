@@ -612,7 +612,7 @@ class DBSR {
         $page_size = $this->getOption(static::OPTION_SEARCH_PAGE_SIZE);
         for($page_start = 0; $page_start < $row_count; $page_start += $page_size) {
             // Get the rows of this page
-            $rows = $this->pdo->query('SELECT DISTINCT * FROM `' . $table . '`' . $where . 'LIMIT ' . $page_start . ', ' . $page_size . ';', PDO::FETCH_ASSOC);
+            $rows = $this->pdo->query('SELECT * FROM `' . $table . '`' . $where . 'LIMIT ' . $page_start . ', ' . $page_size . ';', PDO::FETCH_ASSOC);
 
             // Loop over each row
             foreach($rows as $row) {
