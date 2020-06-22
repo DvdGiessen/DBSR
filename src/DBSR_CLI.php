@@ -131,6 +131,12 @@ class DBSR_CLI
                 'description' => 'interpret serialized strings as their PHP types',
                 'default_value' => true,
             ),
+            DBSR::OPTION_LOCK_TABLES => array(
+                'name' => 'lock-tables',
+                'parameter' => '[true|false]',
+                'description' => 'lock tables when running',
+                'default_value' => true,
+            ),
         ),
     );
 
