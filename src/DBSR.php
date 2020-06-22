@@ -71,6 +71,12 @@ class DBSR
      */
     const OPTION_REVERSED_FILTERS = 9;
 
+    /**
+     * Option: lock tables when running.
+     * @var boolean
+     */
+    const OPTION_LOCK_TABLES = 10;
+
     // Static methods
     /**
      * Creates a new class with the given name if it does not exists.
@@ -176,6 +182,7 @@ class DBSR
         self::OPTION_DB_WRITE_CHANGES  =>  true,
         self::OPTION_HANDLE_SERIALIZE  =>  true,
         self::OPTION_REVERSED_FILTERS  =>  false,
+        self::OPTION_LOCK_TABLES       =>  true,
     );
 
     /**
@@ -519,8 +526,10 @@ class DBSR
                 throw new Exception('Database does not contain any tables.');
             }
 
-            // Lock each table
-            $this->pdo->query('LOCK TABLES `' . implode('` WRITE, `', $tables) . '` WRITE;');
+            if ($this->getOption(static::OPTION_LOCK_TABLES)) {
+                // Lock each table
+                $this->pdo->query('LOCK TABLES `' . implode('` WRITE, `', $tables) . '` WRITE;');
+            }
 
             // Loop through all the (non-filtered) tables
             foreach ($tables as $table) {
@@ -532,8 +541,10 @@ class DBSR
             // Since we support PHP 5.3 we cannot use finally, thus this block is empty and we continue below
         }
 
-        // Unlock all locked tables
-        $this->pdo->query('UNLOCK TABLES');
+        if ($this->getOption(static::OPTION_LOCK_TABLES)) {
+            // Unlock all locked tables
+            $this->pdo->query('UNLOCK TABLES');
+        }
 
         // Restore the old PDO attribute values
         foreach ($pdo_attributes as $attribute => $value) {
