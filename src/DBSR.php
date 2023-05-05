@@ -586,8 +586,8 @@ class DBSR
             $columns[$column_info['Field']] = array(
                 'null'         =>     ($column_info['Null'] == 'YES'),
                 'type'         =>     static::getPHPType($column_info['Type']),
-                'charset'     =>     preg_replace('/^([a-z\d]+)_[\w\d]+$/i', '$1', $column_info['Collation']),
-                'collation' =>     $column_info['Collation'],
+                'charset'      =>     ($column_info['Collation'] !== null) ? preg_replace('/^([a-z\d]+)_[\w\d]+$/i', '$1', $column_info['Collation']) : null, // Collation can be empty for non char columns like integer
+                'collation'    =>     $column_info['Collation'],
             );
 
             // Determine wheter it's part of a candidate key
