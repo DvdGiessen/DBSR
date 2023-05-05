@@ -10,7 +10,7 @@ corrupted serializations, a problem often seen when less advanced search-replace
 scripts were used before on the same database.
 
 ## Requirements
-Minimum supported PHP version is 5.3 and is tested with versions up to 7.4. PDO
+Minimum supported PHP version is 5.3 and is tested with versions up to 8.1. PDO
 is used for connecting with the database, so make sure you have the `pdo` and
 `pdo_mysql` extensions enabled.
 
